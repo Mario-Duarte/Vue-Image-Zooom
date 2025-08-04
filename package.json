@@ -18,7 +18,7 @@
     "vue component",
     "component"
   ],
-  "private": true,
+  "private": false,
   "type": "module",
   "files": [
     "dist"
@@ -28,15 +28,14 @@
   "types": "./dist/vue-image-zooom.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/vue-image-zooom.d.ts",
       "import": "./dist/vue-image-zooom.js",
-      "require": "./dist/vue-image-zooom.umd.cjs",
-      "types": "./dist/vue-image-zooom.d.ts"
+      "require": "./dist/vue-image-zooom.umd.cjs"
     }
   },
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "build": "vue-tsc -b && vite build"
   },
   "dependencies": {
     "vue": "^3.5.17"

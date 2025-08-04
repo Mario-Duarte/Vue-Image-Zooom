@@ -10,15 +10,18 @@ export default defineConfig({
   plugins: [
     vue(),
     dts({
-      include: ['src/**/*'],
-      exclude: ['src/**/*.test.*'],
-      outDir: 'dist',
       insertTypesEntry: true,
-      rollupTypes: false,
-      copyDtsFiles: true
+      outDir: resolve(__dirname, 'dist'),
+      tsconfigPath: "./tsconfig.app.json",
     })
   ],
+  resolve: {
+    alias: {
+      vue: 'vue/dist/vue.esm-bundler.js'
+    }
+  },
   build: {
+    cssCodeSplit: true,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'VueImageZooom',
