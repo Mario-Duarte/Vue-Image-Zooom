@@ -9,7 +9,7 @@ export interface VueImageZooomProps {
   height?: string | number;
   src: string;
   id?: string;
-  onErrorCallback?: (error: ErrorEvent) => void;
+  onErrorCallback?: (error: Event) => void;
 }
 
 export default VueImageZooom
