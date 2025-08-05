@@ -12,7 +12,7 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
       outDir: resolve(__dirname, 'dist'),
-      tsconfigPath: "./tsconfig.app.json",
+      tsconfigPath: "./tsconfig.build.json",
     })
   ],
   resolve: {
