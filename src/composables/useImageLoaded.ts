@@ -23,10 +23,7 @@ interface ImageLoaderState {
   naturalHeight: number;
 }
 
-function useImageLoaded(
-  src: string,
-  onError?: (error: ErrorEvent) => void
-) {
+function useImageLoaded(src: string, onError?: (error: Event) => void) {
   const state = ref<ImageLoaderState>({
     imgData: null,
     error: false,
