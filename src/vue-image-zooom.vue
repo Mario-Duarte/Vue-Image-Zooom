@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref, watch, type VNodeRef } from 'vue';
+import { computed, ref, watch } from 'vue';
 import type { VueImageZooomProps } from '.';
-import useImageLoaded from './helpers/useImageLoaded';
-import useCalculateZoom from './helpers/useCalculateZoom';
+import useImageLoaded from './composables/useImageLoaded';
+import useCalculateZoom from './composables/useCalculateZoom';
+import usePreventBodyScroll from './composables/usePreventBodyScroll';
+import useZoomPosition from './composables/useZoomPosition';
 
 const {
     zoom = "200",
@@ -17,28 +19,80 @@ const {
 
 const isLoaded = ref(false);
 const isZoomed = ref(false);
-const figureRef = ref<VNodeRef | null>(null);
+const zoomPosition = ref('50% 50%');
+const figureRef = ref<HTMLElement | null>(null);
+const isTouchEventRef = ref(false);
 
 const imageState = useImageLoaded(src, onErrorCallback);
-const calculatedZoom = useCalculateZoom(zoom, fullWidth, imageState.value.naturalWidth, figureRef.value);
+const naturalWidth = computed(() => imageState.value.naturalWidth || 0);
+const calculatedZoom = useCalculateZoom(zoom, fullWidth, naturalWidth, figureRef);
+usePreventBodyScroll(isZoomed, figureRef);
+
 
 console.log({ zoom, fullWidth, alt, width, height, src, id, onErrorCallback });
-console.log({ 'value': calculatedZoom.value });
-
 
 watch(imageState, (newState) => {
     isLoaded.value = newState.imgData !== null;
 });
 
+watch([isZoomed, calculatedZoom], ([zoomed, zoom]) => {
+    console.log({ zoomed, zoom });
+});
+
+const toggleZoom = () => {
+    isZoomed.value = !isZoomed.value;
+};
+
+const updatePosition = (
+    e: MouseEvent | TouchEvent
+) => {
+    if (isZoomed.value) {
+        const newPosition = useZoomPosition(figureRef);
+        if (newPosition) {
+            zoomPosition.value = newPosition.getZoomPosition(e) ?? '';
+        }
+    }
+};
+
+const handleMove = (e: MouseEvent | TouchEvent) => {
+    updatePosition(e);
+};
+
+const handleMoveOut = () => {
+    isTouchEventRef.value = false;
+    isZoomed.value = false;
+    zoomPosition.value = "50% 50%";
+};
+
+const figureStyle = computed(() => {
+    return {
+      backgroundImage: isZoomed.value && imageState.value.imgData ? `url(${imageState.value.imgData})` : '',
+      backgroundSize: calculatedZoom.value,
+      backgroundPosition: zoomPosition.value,
+      cursor: isZoomed.value ? 'zoom-out' : 'zoom-in'
+    };
+});
+
 </script>
 
 <template>
-    <figure :id="id" :class="['image-zoom', { loaded: isLoaded, zoomed: isZoomed }]" :ref="figureRef" role="button"
-        :aria-label="'Zoomable image: ' + alt" tabIndex="0" :style="{ cursor: isZoomed ? 'zoom-out' : 'zoom-in' }"
-        @click="isZoomed = !isZoomed" @touchstart="isZoomed = !isZoomed">
+    <figure
+        v-show="!imageState.error"
+        :id="id" 
+        :class="['image-zoom', { loaded: isLoaded, zoomed: isZoomed }]" 
+        ref="figureRef" 
+        role="button"
+        :aria-label="'Zoomable image: ' + alt" tabIndex="0" 
+        :style="figureStyle"
+        @mousemove="handleMove"
+        @mouseleave="handleMoveOut"
+        @click="toggleZoom">
         <img v-if="imageState.imgData" loading="lazy" id="imageZoom" :src="imageState.imgData" :alt="alt" :width="width"
-            :height="height" :style="{ opacity: isZoomed ? 1 : 0 }" />
+            :height="height"/>
     </figure>
+    <div v-show="imageState.error" class="error">
+        <p>There was a problem loading your image</p>
+    </div>
 </template>
 
 <style scoped>
@@ -50,6 +104,17 @@ watch(imageState, (newState) => {
     to {
         transform: rotate(360deg);
     }
+}
+
+div.error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    width: 100%;
+    border: 1px solid #eee;
+    background-color: #f9f9f9;
+    border-radius: 10px;
 }
 
 figure.image-zoom {
@@ -111,6 +176,11 @@ figure.image-zoom.loaded::after {
 }
 
 figure.image-zoom img {
+    opacity: 1;
     display: block;
+}
+
+figure.image-zoom.zoomed img {
+    opacity: 0;
 }
 </style>
