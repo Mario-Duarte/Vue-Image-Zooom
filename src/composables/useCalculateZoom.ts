@@ -38,11 +38,6 @@ function useCalculateZoom(
   });
 
   const zoomValue = computed(() => {
-    console.log({
-      fullWidth,
-      naturalWidth: naturalWidth.value,
-      containerWidth: containerWidth.value,
-    });
     if (!fullWidth || !naturalWidth || !containerWidth.value) return `${zoom}`;
     const zoomPercentage = (naturalWidth.value / containerWidth.value) * 100;
     return `${zoomPercentage < 100 ? zoom : zoomPercentage + "%"}`;
