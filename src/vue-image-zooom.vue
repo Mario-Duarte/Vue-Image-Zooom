@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, getCurrentInstance, ref, watch } from 'vue';
 import type { VueImageZooomProps } from '.';
 import useImageLoaded from './composables/useImageLoaded';
 import useCalculateZoom from './composables/useCalculateZoom';
@@ -14,9 +14,11 @@ const {
     height = "auto",
     src,
     id,
-    onErrorCallback
+    onErrorCallback,
+    errorMessage = "There was a problem loading your image"
 } = defineProps<VueImageZooomProps>();
-
+const instance = getCurrentInstance();
+const uid = ref(instance?.uid);
 const isLoaded = ref(false);
 const isZoomed = ref(false);
 const zoomPosition = ref('50% 50%');
@@ -28,24 +30,14 @@ const naturalWidth = computed(() => imageState.value.naturalWidth || 0);
 const calculatedZoom = useCalculateZoom(zoom, fullWidth, naturalWidth, figureRef);
 usePreventBodyScroll(isZoomed, figureRef);
 
-
-console.log({ zoom, fullWidth, alt, width, height, src, id, onErrorCallback });
-
 watch(imageState, (newState) => {
     isLoaded.value = newState.imgData !== null;
 });
 
-watch([isZoomed, calculatedZoom], ([zoomed, zoom]) => {
-    console.log({ zoomed, zoom });
-});
-
-const toggleZoom = () => {
-    isZoomed.value = !isZoomed.value;
-};
-
 const updatePosition = (
     e: MouseEvent | TouchEvent
 ) => {
+    isTouchEventRef.value = e instanceof TouchEvent ? true : false;
     if (isZoomed.value) {
         const newPosition = useZoomPosition(figureRef);
         if (newPosition) {
@@ -54,7 +46,31 @@ const updatePosition = (
     }
 };
 
-const handleMove = (e: MouseEvent | TouchEvent) => {
+const toggleZoom = (e: MouseEvent | TouchEvent) => {
+    isZoomed.value = !isZoomed.value;
+    isTouchEventRef.value = e instanceof TouchEvent ? true : false;
+    updatePosition(e);
+};
+
+const handleClick = (e: MouseEvent) => {
+    toggleZoom(e);
+};
+
+const handleTouchStart = (e: TouchEvent) => {
+    toggleZoom(e);
+};
+
+const handleTouchMove = (e: TouchEvent) => {
+    updatePosition(e);
+};
+
+const handleTouchEnd = () => {
+    isTouchEventRef.value = false;
+    isZoomed.value = false;
+    zoomPosition.value = "50% 50%";
+};
+
+const handleMove = (e: MouseEvent) => {
     updatePosition(e);
 };
 
@@ -66,32 +82,32 @@ const handleMoveOut = () => {
 
 const figureStyle = computed(() => {
     return {
-      backgroundImage: isZoomed.value && imageState.value.imgData ? `url(${imageState.value.imgData})` : '',
-      backgroundSize: calculatedZoom.value,
-      backgroundPosition: zoomPosition.value,
-      cursor: isZoomed.value ? 'zoom-out' : 'zoom-in'
+        backgroundImage: isZoomed.value && imageState.value.imgData ? `url(${imageState.value.imgData})` : '',
+        backgroundSize: calculatedZoom.value,
+        backgroundPosition: zoomPosition.value,
+        cursor: isZoomed.value ? 'zoom-out' : 'zoom-in'
+    };
+});
+
+const errorStyle = computed(() => {
+    return {
+        width: fullWidth ? '100%' : typeof width === 'string' ? width : `${width}px`,
+        height: typeof height === 'string' ? height : `${height}px`
     };
 });
 
 </script>
 
 <template>
-    <figure
-        v-show="!imageState.error"
-        :id="id" 
-        :class="['image-zoom', { loaded: isLoaded, zoomed: isZoomed }]" 
-        ref="figureRef" 
-        role="button"
-        :aria-label="'Zoomable image: ' + alt" tabIndex="0" 
-        :style="figureStyle"
-        @mousemove="handleMove"
-        @mouseleave="handleMoveOut"
-        @click="toggleZoom">
+    <figure v-show="!imageState.error" :id="id || `image-zoom-${uid}`" :class="['image-zoom', { loaded: isLoaded, zoomed: isZoomed }]"
+        ref="figureRef" role="button" :aria-label="'Zoomable image: ' + alt" tabIndex="0" :style="figureStyle"
+        @click="handleClick" @mousemove="handleMove" @mouseleave="handleMoveOut" @touchstart="handleTouchStart"
+        @touchmove="handleTouchMove" @touchend="handleTouchEnd" @touchcancel="handleTouchEnd">
         <img v-if="imageState.imgData" loading="lazy" id="imageZoom" :src="imageState.imgData" :alt="alt" :width="width"
-            :height="height"/>
+            :height="height" />
     </figure>
-    <div v-show="imageState.error" class="error">
-        <p>There was a problem loading your image</p>
+    <div v-show="imageState.error" class="error" :style="errorStyle">
+        <p>{{ errorMessage }}</p>
     </div>
 </template>
 
@@ -111,7 +127,6 @@ div.error {
     align-items: center;
     justify-content: center;
     min-height: 200px;
-    width: 100%;
     border: 1px solid #eee;
     background-color: #f9f9f9;
     border-radius: 10px;
