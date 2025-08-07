@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 
 
 export default defineConfig({
-  base: '/react-image-zooom/',
+  base: '/vue-image-zooom//',
   plugins: [
     vue()
   ],
