@@ -1,9 +1,0 @@
-{
-  "extends": "./tsconfig.app.json",
-  "exclude": [
-    "src/main.ts"
-  ],
-  "external": [
-    "vue"
-  ]
-}
