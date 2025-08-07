@@ -4,7 +4,7 @@ Simple Vue3 component that will allow users to zoom in on your images, perfect f
 
 Small and light weight!
 
-<a href="https://www.buymeacoffee.com/marioduarte"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png"></a><br/>
+<a href="https://www.buymeacoffee.com/marioduarte"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png" height="32px" alt="Buy me a coffee"></a><br/>
 [Buy me a coffee to keep me going!](https://www.paypal.com/paypalme/MarioDuarte/2)
 
 ## How it works?
