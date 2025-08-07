@@ -102,7 +102,7 @@ const errorStyle = computed(() => {
 
 <template>
     <figure v-show="!imageState.error" :id="id || `image-zoom-${uid}`"
-        :class="['image-zoom', { loaded: isLoaded, zoomed: isZoomed }]" ref="figureRef" role="button"
+        :class="['image-zoom', { loaded: isLoaded, loading: !isLoaded, zoomed: isZoomed, fullView: !isZoomed }]" ref="figureRef" role="button"
         :aria-label="'Zoomable image: ' + alt" tabIndex="0" :style="figureStyle" @click="handleClick"
         @mousemove="handleMove" @mouseleave="handleMoveOut" @touchstart="handleTouchStart" @touchmove="handleTouchMove"
         @touchend="handleTouchEnd" @touchcancel="handleTouchEnd">

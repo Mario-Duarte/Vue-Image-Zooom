@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import dts from 'vite-plugin-dts'
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -13,7 +14,8 @@ export default defineConfig({
       insertTypesEntry: true,
       outDir: resolve(__dirname, 'dist'),
       tsconfigPath: "./tsconfig.build.json",
-    })
+    }),
+    cssInjectedByJsPlugin()
   ],
   resolve: {
     alias: {
