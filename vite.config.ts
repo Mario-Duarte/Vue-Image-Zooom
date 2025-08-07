@@ -26,8 +26,8 @@ export default defineConfig({
     cssCodeSplit: true,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'VueImageZooom',
-      fileName: 'vue-image-zooom',
+      name: 'ImageZooom',
+      fileName: 'image-zooom',
       formats: ['es', 'umd']
     },
     rollupOptions: {

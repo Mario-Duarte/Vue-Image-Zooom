@@ -1,6 +1,6 @@
-import { default as VueImageZooom } from './vue-image-zooom.vue';
+import { default as ImageZooom } from './image-zooom.vue';
 import { App } from '../vue/dist/vue.esm-bundler.js';
-export interface VueImageZooomProps {
+export interface ImageZooomProps {
     zoom?: string | number;
     fullWidth?: boolean;
     alt?: string;
@@ -11,6 +11,6 @@ export interface VueImageZooomProps {
     onErrorCallback?: (error: Event) => void;
     errorMessage?: string;
 }
-export default VueImageZooom;
-export { VueImageZooom };
+export default ImageZooom;
+export { ImageZooom };
 export declare const install: (app: App) => void;

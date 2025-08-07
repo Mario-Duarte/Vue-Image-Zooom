@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance, ref, watch } from 'vue';
-import type { VueImageZooomProps } from './index.ts';
+import type { ImageZooomProps } from './index.ts';
 import useImageLoaded from './composables/useImageLoaded.ts';
 import useCalculateZoom from './composables/useCalculateZoom.ts';
 import usePreventBodyScroll from './composables/usePreventBodyScroll.ts';
@@ -16,7 +16,7 @@ const {
     id,
     onErrorCallback,
     errorMessage = "There was a problem loading your image"
-} = defineProps<VueImageZooomProps>();
+} = defineProps<ImageZooomProps>();
 const instance = getCurrentInstance();
 const uid = ref(instance?.uid);
 const isLoaded = ref(false);

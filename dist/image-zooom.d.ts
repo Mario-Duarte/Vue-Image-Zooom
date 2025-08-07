@@ -1,6 +1,6 @@
 export * from './index'
 export {}
-import VueImageZooom from './index'
-export default VueImageZooom
+import ImageZooom from './index'
+export default ImageZooom
 export * from './index'
 export {}

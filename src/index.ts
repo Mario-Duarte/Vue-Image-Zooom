@@ -1,7 +1,7 @@
-import VueImageZooom from "./vue-image-zooom.vue";
+import ImageZooom from "./image-zooom.vue";
 import type { App } from "vue";
 
-export interface VueImageZooomProps {
+export interface ImageZooomProps {
   zoom?: string | number;
   fullWidth?: boolean;
   alt?: string;
@@ -13,9 +13,9 @@ export interface VueImageZooomProps {
   errorMessage?: string;
 }
 
-export default VueImageZooom;
-export { VueImageZooom };
+export default ImageZooom;
+export { ImageZooom };
 
 export const install = (app: App) => {
-  app.component("VueImageZooom", VueImageZooom);
+  app.component("ImageZooom", ImageZooom);
 };
