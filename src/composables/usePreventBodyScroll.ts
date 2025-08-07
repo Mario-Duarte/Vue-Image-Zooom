@@ -1,29 +1,27 @@
-import { onUnmounted, watch, type Ref } from "vue";
+import { watch, type Ref } from "vue";
 
 /**
- * Composable to prevent body scrolling when a zoomed state is active.
+ * Prevents body scrolling when a zoomed state is active.
  *
- * This function watches a `Ref<boolean>` indicating whether zoom is active,
- * and optionally a `Ref<HTMLElement | null>` for a specific element.
- * When zoom is active, it sets `document.body.style.overflow` to `"hidden"`
- * to prevent scrolling, and attaches a `touchmove` event listener to the element
- * to prevent touch scrolling. When zoom is inactive, it restores the original
- * overflow style and removes the event listener.
+ * Watches a `Ref<boolean>` indicating whether zoom is active, and optionally a `Ref<TouchEvent | null>`
+ * for a specific touch event. When zoom is active, sets `document.body.style.overflow` to `"hidden"`
+ * to prevent scrolling, and calls a preventScroll handler if a touch event is provided.
+ * When zoom is inactive, restores the original overflow style.
  *
- * The cleanup is handled automatically on component unmount.
+ * Cleanup is handled automatically on component unmount.
  *
  * @param isZoomed - A Vue ref indicating whether zoom is active.
- * @param elm - (Optional) A Vue ref to an HTMLElement to attach the touchmove event listener.
+ * @param isTouchEventRef - A Vue ref to a TouchEvent to handle touchmove prevention (optional).
  */
 
 function usePreventBodyScroll(
   isZoomed: Ref<boolean>,
-  elm?: Ref<HTMLElement | null>
+  isTouchEventRef: Ref<TouchEvent | null>,
 ) {
   const originalOverflow = getComputedStyle(document.body).overflow || "auto";
 
   const preventScroll = (e: TouchEvent) => {
-    if (isZoomed.value) {
+    if (isZoomed.value && e.touches.length === 1) {
       e.preventDefault();
     }
   };
@@ -31,30 +29,11 @@ function usePreventBodyScroll(
   watch([isZoomed], ([zoomed]) => {
     if (zoomed) {
       document.body.style.overflow = "hidden";
+      if (isTouchEventRef.value) {
+        preventScroll(isTouchEventRef.value);
+      }
     } else {
       document.body.style.overflow = originalOverflow;
-    }
-  });
-
-  watch(
-    () => elm?.value,
-    (newElm, oldElm) => {
-      if (oldElm) {
-        oldElm.removeEventListener("touchmove", preventScroll);
-      }
-      if (!newElm) return;
-
-      newElm.addEventListener("touchmove", preventScroll, { passive: false });
-    },
-    {
-      immediate: true,
-    }
-  );
-
-  onUnmounted(() => {
-    document.body.style.overflow = originalOverflow;
-    if (elm?.value) {
-      elm.value.removeEventListener("touchmove", preventScroll);
     }
   });
 }
