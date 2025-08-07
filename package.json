@@ -24,12 +24,9 @@
     "dev": "vite --host",
     "build": "vue-tsc -b && vite build"
   },
-  "peerDependencies": {
-    "vue": "^3.0.0"
-  },
   "dependencies": {
     "vue": "^3.0.0",
-    "vue-image-zooom": "^1.0.0"
+    "vue-image-zooom": "^1.1.0"
   },
   "devDependencies": {
     "@types/node": "^24.1.0",
