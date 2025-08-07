@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, getCurrentInstance, ref, watch } from 'vue';
-import type { VueImageZooomProps } from '.';
-import useImageLoaded from './composables/useImageLoaded';
-import useCalculateZoom from './composables/useCalculateZoom';
-import usePreventBodyScroll from './composables/usePreventBodyScroll';
-import useZoomPosition from './composables/useZoomPosition';
+import type { VueImageZooomProps } from './index.ts';
+import useImageLoaded from './composables/useImageLoaded.ts';
+import useCalculateZoom from './composables/useCalculateZoom.ts';
+import usePreventBodyScroll from './composables/usePreventBodyScroll.ts';
+import useZoomPosition from './composables/useZoomPosition.ts';
 
 const {
     zoom = "200",

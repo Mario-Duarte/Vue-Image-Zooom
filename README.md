@@ -31,7 +31,6 @@ In your main entry file (e.g., `main.ts`):
 import { createApp } from 'vue'
 import App from './App.vue'
 import VueImageZooom from 'vue-image-zooom'
-import 'vue-image-zooom/dist/style.css' // If you want to use the default styles
 
 const app = createApp(App)
 
