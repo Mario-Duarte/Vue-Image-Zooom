@@ -1,8 +1,13 @@
 # ![Logo-ImageZooom](https://github.com/Mario-Duarte/Vue-Image-Zooom/blob/main/public/logo28.png?raw=true) Image-Zooom a Vue3 Component
 
+[![react-image-zooom](https://nodei.co/npm/vue-image-zooom.png)](https://www.npmjs.com/package/vue-image-zooom)
+
 Simple Vue3 component that will allow users to zoom in on your images, perfect for product images and galleries!
 
 Small and light weight Vue port of [React-Image-Zooom](https://github.com/Mario-Duarte/react-image-zooom) component.
+
+[![npm version](https://badge.fury.io/js/vue-image-zooom.svg)](https://www.npmjs.com/package/vue-image-zooom) 
+[![https://img.shields.io/github/issues-raw/mario-duarte/vue-image-zooom](https://img.shields.io/github/issues-raw/mario-duarte/vue-image-zooom)](https://www.npmjs.com/package/vue-image-zooom) 
 
 <a href="https://www.buymeacoffee.com/marioduarte"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png" height="32px" alt="Buy me a coffee"></a><br/>
 [Buy me a coffee to keep me going!](https://www.paypal.com/paypalme/MarioDuarte/2)
