@@ -1,4 +1,4 @@
-# ![Logo-ImageZooom](https://github.com/Mario-Duarte/react-ImageZooom/blob/demo/public/logo28.png?raw=true) Image-Zooom a Vue3 Component
+# ![Logo-ImageZooom](https://github.com/Mario-Duarte/Vue-Image-Zooom/blob/main/public/logo28.png?raw=true) Image-Zooom a Vue3 Component
 
 Simple Vue3 component that will allow users to zoom in on your images, perfect for product images and galleries!
 
