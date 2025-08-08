@@ -87,9 +87,9 @@ import ImageZooom from 'vue-image-zooom'
                     imageZoom image)</b> attributes.
             </p>
 
-            <ImageZooom class="image-zoom-force-full" src="https://picsum.photos/seed/005/600/400" alt="Demo image 5" zoom="200%" />
+            <ImageZooom src="https://picsum.photos/seed/005/1920/1080" alt="Demo image 5" />
 
-            <p class="mb-2">
+            <p class="my-2">
                 You can also set the attribute <Highlight>fullWidth</Highlight> as boolean (defaults to false) to set
                 the zoom level to match
                 the full dimensions of the image, if the image is smaller than the container it is in it will ignore
