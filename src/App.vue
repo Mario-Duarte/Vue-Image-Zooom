@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Highlight from './components/highlight.vue'
 import Container from './components/container.vue'
+import AdvancedGallery from './components/advancedGallery.vue'
 import Footer from './components/footer.vue'
 import ImageZooom from 'vue-image-zooom'
 </script>
@@ -28,7 +29,7 @@ import ImageZooom from 'vue-image-zooom'
         </div>
 
         <div class="h-auto w-full">
-            <ImageZooom src="https://picsum.photos/seed/000/1920/1080" alt="Demo image full width"/>
+            <ImageZooom src="https://picsum.photos/seed/000/1920/1080" alt="Demo image full width" />
         </div>
 
         <Container>
@@ -65,14 +66,14 @@ import ImageZooom from 'vue-image-zooom'
             </p>
         </Container>
 
-        <div class="max-w-5xl w-full flex flex-col items-start justify-start bg-stone-200 rounded-sm p-6">
+        <Container class="bg-stone-200 rounded-sm">
             <div class="w-full grid grid-cols-1 md:grid-cols-2 grid-rows-auto gap-6">
                 <ImageZooom src="https://picsum.photos/seed/001/600/400" alt="Demo image 1" zoom="200%" />
                 <ImageZooom src="https://picsum.photos/seed/002/600/400" alt="Demo image 2" zoom="200%" />
                 <ImageZooom src="https://picsum.photos/seed/003/600/400" alt="Demo image 3" zoom="200%" />
                 <ImageZooom src="https://picsum.photos/seed/004/600/400" alt="Demo image 4" zoom="200%" />
             </div>
-        </div>
+        </Container>
 
         <Container>
             <h2 class="text-2xl text-teal-700 font-bold mb-4 mt-12">How to use it</h2>
@@ -81,13 +82,19 @@ import ImageZooom from 'vue-image-zooom'
                 <b>(mandatory)</b> with the image url you wan to use and it will render a working imageZoom component.
             </p>
 
-            <p class="mb-2">
-                By default the component will set a <Highlight>zoom</Highlight> of <b>200%</b> on the image if no attribute was set, it will
-                also set default values to the <Highlight>width</Highlight> <b>(100%)</b>, <Highlight>height</Highlight> <b>(auto)</b> and <Highlight>alt</Highlight> <b>(This is an
+            <p class="mb-4">
+                By default the component will set a <Highlight>zoom</Highlight> of <b>200%</b> on the image if no
+                attribute was set, it will
+                also set default values to the <Highlight>width</Highlight> <b>(100%)</b>, <Highlight>height</Highlight>
+                <b>(auto)</b> and <Highlight>alt</Highlight> <b>(This is an
                     imageZoom image)</b> attributes.
             </p>
 
             <ImageZooom src="https://picsum.photos/seed/005/1920/1080" alt="Demo image 5" />
+
+            <VCodeBlock class="w-full mt-4"
+                :code='"<ImageZooom src=\"https://picsum.photos/seed/005/1920/1080\" alt=\"Demo image 5\" />"'
+                label="Code Example:" lang="javascript" />
 
             <p class="my-2">
                 You can also set the attribute <Highlight>fullWidth</Highlight> as boolean (defaults to false) to set
@@ -95,6 +102,55 @@ import ImageZooom from 'vue-image-zooom'
                 the full dimensions of the image, if the image is smaller than the container it is in it will ignore
                 this and use the zoom prop.
             </p>
+
+            <h2 class="text-2xl text-teal-700 font-bold mb-4 mt-6">Full width image example using a 4k image</h2>
+
+            <ImageZooom src="https://picsum.photos/seed/022/3840/2160" alt="Demo image 6 with fullWidth prop"
+                fullWidth />
+
+            <VCodeBlock class="w-full mt-4"
+                :code='"<ImageZooom src=\"https://picsum.photos/seed/022/3840/2160\" alt=\"Demo image 6 with fullWidth prop\" fullWidth />"'
+                label="Code Example:" lang="javascript" />
+
+            <p class="my-2">You can also pass in secondary attributes such as <Highlight>id</Highlight> and <Highlight>
+                    className</Highlight> to enable you to style the component more easily, in addition to these, the
+                component will also update it's className based on it's state, for example, <Highlight>loading
+                </Highlight> and <Highlight>loaded</Highlight> for when the component is downloading the image passed,
+                and <Highlight>fullView</Highlight> and <Highlight>zoomed</Highlight> for when the user zooms in on the
+                image. These can be easily targeted in conjunction with the attribute className to adapt the style of
+                the component depending of implementation.</p>
+
+            <h2 class="text-2xl text-teal-700 font-bold mb-4 mt-6">
+                Here is an example of a custom gallery:
+            </h2>
+
+            <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+                <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/006/1920/1080"
+                    alt="A image to apply the ImageZoom plugin" zoom="300" />
+                <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/007/1920/1080"
+                    alt="A image to apply the ImageZoom plugin" zoom="300" />
+                <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/008/1920/1080"
+                    alt="A image to apply the ImageZoom plugin" zoom="300" />
+                <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/009/1920/1080"
+                    alt="A image to apply the ImageZoom plugin" zoom="300" />
+            </div>
+
+            <VCodeBlock class="w-full mt-4" :code='`<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+    <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/006/1920/1080"
+    alt="A image to apply the ImageZoom plugin" zoom="300" />
+    <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/007/1920/1080"
+    alt="A image to apply the ImageZoom plugin" zoom="300" />
+    <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/008/1920/1080"
+    alt="A image to apply the ImageZoom plugin" zoom="300" />
+    <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/009/1920/1080"
+    alt="A image to apply the ImageZoom plugin" zoom="300" />
+</div>`' label="Custom gallery code:" lang="javascript" />
+
+
+            <h2 class="text-2xl text-teal-700 font-bold mb-4 mt-6">Here is a more advanced example with image picker:</h2>
+
+            <AdvancedGallery />
+
         </Container>
     </main>
     <Footer />
