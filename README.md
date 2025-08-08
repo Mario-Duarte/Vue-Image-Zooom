@@ -22,24 +22,39 @@ It will have the class `loading` while the image is been preloaded and `loaded` 
 
 Additionally it will have the class `fullview` while the user has not initiated the zoom and `zoomed` once the user has taped/clicked in.
 
+You can also use the `onErrorCallback` prop to handle errors when loading the image and the `errorMessage` prop to display a custom error message.
+
+The `fullWidth` prop allows you to make the image take the full width of its container.
+
 On touch enabled devices users can use one finger to zoom in and move the zoom location by dragging the finder on the image, this will disable the scrolling. Touching with more than 1 finger on the image will not activate the zoom and page will scroll as normal, this was decided this way as it is easier to use one finger to zoom and drag on the image.
+
+## V1.2.0
+
+Renamed the package from `VueImageZooom` to `ImageZooom` and updated documentation.
 
 ## How to use
 
 You can register the component globally as a plugin or import it directly into your components.
 
-### 1. Global Registration
+
+### 1. Install
+
+```shell
+npm i vue-image-zooom
+```
+
+### 2. Global Registration
 
 In your main entry file (e.g., `main.ts`):
 
 ```typescript
 import { createApp } from 'vue'
 import App from './App.vue'
-import VueImageZooom from 'vue-image-zooom'
+import ImageZooom from 'image-zooom'
 
 const app = createApp(App)
 
-app.use(VueImageZooom)
+app.use(ImageZooom)
 app.mount('#app')
 ```
 
@@ -47,7 +62,7 @@ Then you can use it anywhere in your application:
 
 ```typescript
 <template>
-  <VueImageZooom 
+  <ImageZooom 
     src="path/to/your/image.jpg" 
     alt="A beautiful image" 
     :width="400"
@@ -56,17 +71,17 @@ Then you can use it anywhere in your application:
 </template>
 ```
 
-### 2. Local Registration
+### 3. Local Registration
 
 Import the component directly into your Vue component:
 
 ```typescript
 <script setup lang="ts">
-import { VueImageZooom } from 'vue-image-zooom';
+import { ImageZooom } from 'vue-image-zooom';
 </script>
 
 <template>
-  <VueImageZooom 
+  <ImageZooom 
     src="path/to/your/image.jpg" 
     alt="A beautiful image" 
     fullWidth

@@ -28,7 +28,7 @@
     "@tailwindcss/vite": "^4.1.11",
     "tailwindcss": "^4.1.11",
     "vue": "^3.0.0",
-    "vue-image-zooom": "^1.1.0"
+    "vue-image-zooom": "^1.2.0"
   },
   "devDependencies": {
     "@types/node": "^24.1.0",
