@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, getCurrentInstance, ref, watch } from 'vue';
+import { computed, getCurrentInstance, ref, watch, useAttrs } from 'vue';
 import type { ImageZooomProps } from './index.ts';
 import useImageLoaded from './composables/useImageLoaded.ts';
 import useCalculateZoom from './composables/useCalculateZoom.ts';
@@ -17,6 +17,7 @@ const {
     onErrorCallback,
     errorMessage = "There was a problem loading your image"
 } = defineProps<ImageZooomProps>();
+const attrs = useAttrs();
 const instance = getCurrentInstance();
 const uid = ref(instance?.uid);
 const isLoaded = ref(false);
@@ -82,8 +83,19 @@ const handleMoveOut = () => {
     zoomPosition.value = "50% 50%";
 };
 
+const normalize = (val: string | number | undefined, fallback: string) => {
+    if (typeof val === 'number') return `${val}px`;
+    if (typeof val === 'string' && val.trim().length > 0) return val;
+    return fallback;
+};
+
 const figureStyle = computed(() => {
+    const computedWidth = normalize(width, '100%');
+    const computedHeight = normalize(height, 'auto');
+
     return {
+        width: computedWidth,
+        height: computedHeight,
         backgroundImage: imageState.value.imgData ? `url(${imageState.value.imgData})` : '',
         backgroundSize: calculatedZoom.value,
         backgroundPosition: zoomPosition.value,
@@ -102,12 +114,11 @@ const errorStyle = computed(() => {
 
 <template>
     <figure v-show="!imageState.error" :id="id || `image-zoom-${uid}`"
-        :class="['image-zoom', { loaded: isLoaded, loading: !isLoaded, zoomed: isZoomed, fullView: !isZoomed }]" ref="figureRef" role="button"
-        :aria-label="'Zoomable image: ' + alt" tabIndex="0" :style="figureStyle" @click="handleClick"
-        @mousemove="handleMove" @mouseleave="handleMoveOut" @touchstart="handleTouchStart" @touchmove="handleTouchMove"
-        @touchend="handleTouchEnd" @touchcancel="handleTouchEnd">
-        <img v-if="imageState.imgData" loading="lazy" id="imageZoom" :src="imageState.imgData" :alt="alt" :width="width"
-            :height="height" />
+        :class="['image-zoom', { loaded: isLoaded, loading: !isLoaded, zoomed: isZoomed, fullView: !isZoomed }]"
+        ref="figureRef" role="button" :aria-label="'Zoomable image: ' + alt" tabIndex="0" :style="figureStyle"
+        @click="handleClick" @mousemove="handleMove" @mouseleave="handleMoveOut" @touchstart="handleTouchStart"
+        @touchmove="handleTouchMove" @touchend="handleTouchEnd" @touchcancel="handleTouchEnd" v-bind="attrs">
+        <img v-if="imageState.imgData" loading="lazy" id="imageZoom" :src="imageState.imgData" :alt="alt" />
     </figure>
     <div v-show="imageState.error" class="error" :style="errorStyle">
         <p>{{ errorMessage }}</p>
@@ -137,8 +148,6 @@ div.error {
 
 figure.image-zoom {
     position: relative;
-    display: inline-block;
-    width: auto;
     min-height: 25vh;
     background-position: 50% 50%;
     background-color: #eee;
@@ -196,6 +205,8 @@ figure.image-zoom.loaded::after {
 figure.image-zoom img {
     opacity: 1;
     display: block;
+    width: 100%;
+    height: auto;
 }
 
 figure.image-zoom.zoomed img {

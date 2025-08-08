@@ -24,9 +24,19 @@ Additionally it will have the class `fullview` while the user has not initiated 
 
 On touch enabled devices users can use one finger to zoom in and move the zoom location by dragging the finder on the image, this will disable the scrolling. Touching with more than 1 finger on the image will not activate the zoom and page will scroll as normal, this was decided this way as it is easier to use one finger to zoom and drag on the image.
 
-## V1.2.0
+## v1.3.0
 
-Renamed the package from `VueImageZooom` to `ImageZooom` and updated documentation.
+Change log:
+- Passing attributes properly down to the `figure` tag using `useAttrs`
+- Clarified fullWidth behavior: when fullWidth is true the zoom fits the image’s natural width to the container, it does not upscale images smaller than the container and will fall back to the provided zoom value.
+- Sizing and defaults
+    - `width`/`height` props accept string | number and are normalized in `image-zooom.vue` (numbers become px; empty strings fall back to 100%/auto).
+The rendered `<img>` uses `width: 100%; height: auto;` inside the figure.
+
+### V1.2.0
+
+Change log:
+- Renamed the package from `VueImageZooom` to `ImageZooom` and updated documentation.
 
 ## How to use
 
