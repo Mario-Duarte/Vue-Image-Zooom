@@ -12,5 +12,16 @@ export default defineConfig({
   },
   build: {
     outDir: "docs",
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vue: ['vue'],
+          'vue-image-zooom': ['vue-image-zooom'],
+          'vue-code-block': ['@wdns/vue-code-block'],
+          prism: ['prismjs'],
+        },
+      },
+    },
   },
 });

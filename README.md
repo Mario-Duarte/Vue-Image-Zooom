@@ -24,7 +24,12 @@ Additionally it will have the class `fullview` while the user has not initiated 
 
 On touch enabled devices users can use one finger to zoom in and move the zoom location by dragging the finder on the image, this will disable the scrolling. Touching with more than 1 finger on the image will not activate the zoom and page will scroll as normal, this was decided this way as it is easier to use one finger to zoom and drag on the image.
 
-## v1.3.0
+### v1.4.0
+
+Change log:
+- Fixed issue where dynamicly changing the src attribute in the component would not cause the component to re-render due to the props of the `ImageZooom` been destructured and losing the ref status.
+
+### v1.3.0
 
 Change log:
 - Passing attributes properly down to the `figure` tag using `useAttrs`

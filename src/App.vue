@@ -1,36 +1,17 @@
 <script setup lang="ts">
 import Highlight from './components/highlight.vue'
 import Container from './components/container.vue'
+import Gallery from './components/gallery.vue'
 import AdvancedGallery from './components/advancedGallery.vue'
 import Footer from './components/footer.vue'
 import ImageZooom from 'vue-image-zooom'
+import Hero from './components/hero.vue'
 </script>
 
 <template>
     <main class="flex flex-col items-center justify-start min-h-screen mb-8">
 
-        <div class="min-h-[20dvh] w-full max-w-5xl flex flex-col items-center justify-center px-6 py-12">
-            <img src="/logo.svg" alt="Vue Image Zooom Logo" class="w-12 h-12">
-            <h1 class="text-4xl text-teal-700 font-bold mb-4 mt-4">&lt;ImageZoom&#x0002F;&gt;</h1>
-
-            <a href="https://www.npmjs.com/package/vue-image-zooom" target="_blank"
-                class="bg-slate-600 text-neutral-50 rounded-md px-2 py-1 mb-4">npm i vue-image-zooom</a>
-
-            <p class="text-center mb-4">
-                Simple Vue component that will allow users to zoom in on your images, perfect for product images and
-                galleries!
-            </p>
-            <p class="text-center">
-                Small and light weight!<br />
-                Give it a try and check the docs <a href="https://github.com/marioduarte/vue-image-zooom"
-                    target="_blank" class="text-rose-600 hover:underline">here</a>.
-            </p>
-
-        </div>
-
-        <div class="h-auto w-full">
-            <ImageZooom src="https://picsum.photos/seed/000/1920/1080" alt="Demo image full width" />
-        </div>
+        <Hero />
 
         <Container>
             <h2 class="text-2xl text-teal-700 font-bold mb-4">How it works</h2>
@@ -120,36 +101,16 @@ import ImageZooom from 'vue-image-zooom'
                 image. These can be easily targeted in conjunction with the attribute className to adapt the style of
                 the component depending of implementation.</p>
 
-            <h2 class="text-2xl text-teal-700 font-bold mb-4 mt-6">
-                Here is an example of a custom gallery:
-            </h2>
-
-            <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-                <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/006/1920/1080"
-                    alt="A image to apply the ImageZoom plugin" zoom="300" />
-                <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/007/1920/1080"
-                    alt="A image to apply the ImageZoom plugin" zoom="300" />
-                <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/008/1920/1080"
-                    alt="A image to apply the ImageZoom plugin" zoom="300" />
-                <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/009/1920/1080"
-                    alt="A image to apply the ImageZoom plugin" zoom="300" />
-            </div>
-
-            <VCodeBlock class="w-full mt-4" :code='`<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-    <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/006/1920/1080"
-    alt="A image to apply the ImageZoom plugin" zoom="300" />
-    <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/007/1920/1080"
-    alt="A image to apply the ImageZoom plugin" zoom="300" />
-    <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/008/1920/1080"
-    alt="A image to apply the ImageZoom plugin" zoom="300" />
-    <ImageZooom className="border-10 border-black" src="https://picsum.photos/seed/009/1920/1080"
-    alt="A image to apply the ImageZoom plugin" zoom="300" />
-</div>`' label="Custom gallery code:" lang="javascript" />
-
-
-            <h2 class="text-2xl text-teal-700 font-bold mb-4 mt-6">Here is a more advanced example with image picker:</h2>
+            <Gallery />
 
             <AdvancedGallery />
+
+            <p class="my-2">Hope you find this useful and create something awesome with it!</p>
+
+            <p>Want to contribute or found a bug? Let me know on <a class="text-rose-600 hover:underline"
+                    href="https://github.com/Mario-Duarte/Vue-Image-Zooom/issues" target="_blank">GitHub</a></p>
+            <p>Want to donate a Coffee and keep me going? <a class="text-rose-600 hover:underline"
+                    href="https://www.paypal.com/paypalme/MarioDuarte/2" target="_blank">Donate via PayPal</a></p>
 
         </Container>
     </main>
