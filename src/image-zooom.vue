@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { computed, getCurrentInstance, ref, watch, useAttrs } from 'vue';
+import { computed, getCurrentInstance, ref, watch, useAttrs, toRef } from 'vue';
 import type { ImageZooomProps } from './index.ts';
 import useImageLoaded from './composables/useImageLoaded.ts';
 import useCalculateZoom from './composables/useCalculateZoom.ts';
 import usePreventBodyScroll from './composables/usePreventBodyScroll.ts';
 import useZoomPosition from './composables/useZoomPosition.ts';
 
-const {
-    zoom = "200",
-    fullWidth = false,
-    alt = "This is an imageZoom image",
-    width = "100%",
-    height = "auto",
-    src,
-    id,
-    onErrorCallback,
-    errorMessage = "There was a problem loading your image"
-} = defineProps<ImageZooomProps>();
+const props = withDefaults(defineProps<ImageZooomProps>(), {
+  zoom: "200",
+  id: undefined,
+  fullWidth: false,
+  alt: "This is an imageZoom image",
+  width: "100%",
+  height: "auto",
+  errorMessage: "There was a problem loading your image"
+});
+
 const attrs = useAttrs();
+const srcRef = toRef(props, 'src');
 const instance = getCurrentInstance();
 const uid = ref(instance?.uid);
 const isLoaded = ref(false);
@@ -26,9 +26,9 @@ const zoomPosition = ref('50% 50%');
 const figureRef = ref<HTMLElement | null>(null);
 const isTouchEventRef = ref<TouchEvent | null>(null);
 
-const imageState = useImageLoaded(src, onErrorCallback);
+const imageState = useImageLoaded(srcRef, props.onErrorCallback);
 const naturalWidth = computed(() => imageState.value.naturalWidth || 0);
-const calculatedZoom = useCalculateZoom(zoom, fullWidth, naturalWidth, figureRef);
+const calculatedZoom = useCalculateZoom(props.zoom, props.fullWidth, naturalWidth, figureRef);
 usePreventBodyScroll(isZoomed, isTouchEventRef);
 const { getZoomPosition } = useZoomPosition(figureRef);
 
@@ -83,6 +83,15 @@ const handleMoveOut = () => {
     zoomPosition.value = "50% 50%";
 };
 
+watch(imageState, (newState) => {
+    isLoaded.value = newState.imgData !== null;
+    
+    if (!newState.imgData && !newState.error) {
+        isZoomed.value = false;
+        zoomPosition.value = '50% 50%';
+    }
+});
+
 const normalize = (val: string | number | undefined, fallback: string) => {
     if (typeof val === 'number') return `${val}px`;
     if (typeof val === 'string' && val.trim().length > 0) return val;
@@ -90,8 +99,8 @@ const normalize = (val: string | number | undefined, fallback: string) => {
 };
 
 const figureStyle = computed(() => {
-    const computedWidth = normalize(width, '100%');
-    const computedHeight = normalize(height, 'auto');
+    const computedWidth = normalize(props.width, '100%');
+    const computedHeight = normalize(props.height, 'auto');
 
     return {
         width: computedWidth,
@@ -105,15 +114,15 @@ const figureStyle = computed(() => {
 
 const errorStyle = computed(() => {
     return {
-        width: fullWidth ? '100%' : typeof width === 'string' ? width : `${width}px`,
-        height: typeof height === 'string' ? height : `${height}px`
+        width: props.fullWidth ? '100%' : typeof props.width === 'string' ? props.width : `${props.width}px`,
+        height: typeof props.height === 'string' ? props.height : `${props.height}px`
     };
 });
 
 </script>
 
 <template>
-    <figure v-show="!imageState.error" :id="id || `image-zoom-${uid}`"
+    <figure v-show="!imageState.error" :id="props.id || `image-zoom-${uid}`"
         :class="['image-zoom', { loaded: isLoaded, loading: !isLoaded, zoomed: isZoomed, fullView: !isZoomed }]"
         ref="figureRef" role="button" :aria-label="'Zoomable image: ' + alt" tabIndex="0" :style="figureStyle"
         @click="handleClick" @mousemove="handleMove" @mouseleave="handleMoveOut" @touchstart="handleTouchStart"

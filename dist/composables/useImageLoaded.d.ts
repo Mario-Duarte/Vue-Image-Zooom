@@ -1,3 +1,4 @@
+import { Ref } from '../../vue/dist/vue.esm-bundler.js';
 /**
  * Loads an image from the specified source URL and tracks its loading state.
  *
@@ -19,7 +20,7 @@ interface ImageLoaderState {
     naturalWidth: number;
     naturalHeight: number;
 }
-declare function useImageLoaded(src: string, onError?: (error: Event) => void): import('../../vue/dist/vue.esm-bundler.js').Ref<{
+declare function useImageLoaded(src: Ref<string | undefined>, onError?: (error: Event) => void): Ref<{
     imgData: string | null;
     error: boolean;
     naturalWidth: number;

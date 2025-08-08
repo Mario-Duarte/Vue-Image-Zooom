@@ -1,7 +1,13 @@
-import { createApp } from "vue";
+import { createApp, ref } from "vue";
 import ImageZooom from "./image-zooom.vue";
 
 const app = createApp({
+  setup() {
+    const selectedImg = ref("https://picsum.photos/seed/000/600/400");
+    return {
+      selectedImg,
+    };
+  },
   components: {
     ImageZooom,
   },
@@ -11,11 +17,12 @@ const app = createApp({
       <div style="max-width: 600px; display: flex; flex-direction: column; gap: 20px; align-items: flex-start;">
       <ImageZooom 
         :class="'custom-class'"
-        src="https://picsum.photos/seed/000/1920/1080" 
+        :src="selectedImg" 
         alt="Demo image" 
         :width="300"
         zoom="250%"
       />
+      <button @click="selectedImg = 'https://picsum.photos/seed/002/600/400'">Change Image</button>
       <ImageZooom 
         src="https://picsum.photos/sed/000/1920/1080" 
         alt="Demo image error" 
