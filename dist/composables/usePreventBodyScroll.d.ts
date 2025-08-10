@@ -1,4 +1,4 @@
-import { Ref } from '../../vue/dist/vue.esm-bundler.js';
+import { MaybeRefOrGetter } from '../../vue/dist/vue.esm-bundler.js';
 /**
  * Prevents body scrolling when a zoomed state is active.
  *
@@ -12,5 +12,5 @@ import { Ref } from '../../vue/dist/vue.esm-bundler.js';
  * @param isZoomed - A Vue ref indicating whether zoom is active.
  * @param isTouchEventRef - A Vue ref to a TouchEvent to handle touchmove prevention (optional).
  */
-declare function usePreventBodyScroll(isZoomed: Ref<boolean>, isTouchEventRef: Ref<TouchEvent | null>): void;
+declare function usePreventBodyScroll(isZoomed: MaybeRefOrGetter<boolean>, isTouchEventRef: MaybeRefOrGetter<TouchEvent | null>): void;
 export default usePreventBodyScroll;

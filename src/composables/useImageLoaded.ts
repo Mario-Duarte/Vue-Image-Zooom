@@ -1,4 +1,4 @@
-import { ref, unref, watch, type Ref } from "vue";
+import { ref, toValue, watch, type MaybeRefOrGetter } from "vue";
 
 /**
  * Loads an image from the specified source URL and tracks its loading state.
@@ -23,7 +23,7 @@ interface ImageLoaderState {
   naturalHeight: number;
 }
 
-function useImageLoaded(src: Ref<string | undefined>, onError?: (error: Event) => void) {
+function useImageLoaded(src: MaybeRefOrGetter<string | undefined>, onError?: (error: Event) => void) {
   const state = ref<ImageLoaderState>({
     imgData: null,
     error: false,
@@ -68,7 +68,7 @@ function useImageLoaded(src: Ref<string | undefined>, onError?: (error: Event) =
       img.removeEventListener("error", handleError);
     }
 
-    const currentSrc = unref(src);
+    const currentSrc = toValue(src);
     if (!currentSrc) {
       return;
     }
@@ -80,7 +80,7 @@ function useImageLoaded(src: Ref<string | undefined>, onError?: (error: Event) =
   };
 
   watch(
-    () => [unref(src)],
+    () => [toValue(src)],
     () => {
       loadImage();
     },

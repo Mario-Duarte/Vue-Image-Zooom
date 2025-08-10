@@ -1,4 +1,4 @@
-import type { Ref } from "vue";
+import { toValue, type MaybeRefOrGetter } from "vue";
 
 /**
  * Composable function to calculate the zoom position as a percentage string
@@ -13,10 +13,12 @@ import type { Ref } from "vue";
  *          clamped between 0% and 100%. Returns `undefined` if the element is not available.
  */
 
-function useZoomPosition(elm?: Ref<HTMLElement | null>) {
+function useZoomPosition(elm?:  MaybeRefOrGetter<HTMLElement | null>) {
   const getZoomPosition = (e: MouseEvent | TouchEvent) => {
-    if (!elm?.value) return;
-    const zoomer = elm.value.getBoundingClientRect();
+    const el = elm ? toValue(elm) : null;
+    if (!el) return;
+
+    const zoomer = el.getBoundingClientRect();
     let x: number, y: number;
 
     const isTouchEvent = (
