@@ -1,4 +1,4 @@
-import { toValue, type MaybeRefOrGetter, type Ref } from "vue";
+import { toValue, type MaybeRefOrGetter } from "vue";
 
 /**
  * Composable function to calculate the zoom position as a percentage string

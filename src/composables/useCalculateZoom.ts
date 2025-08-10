@@ -1,4 +1,4 @@
-import { computed, onMounted, onUnmounted, ref, toValue, type MaybeRefOrGetter, type Ref } from "vue";
+import { computed, onMounted, onUnmounted, ref, toValue, type MaybeRefOrGetter } from "vue";
 
 /**
  * Computes the zoom percentage for an image based on its natural width, container width,

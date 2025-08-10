@@ -1,4 +1,4 @@
-import { toValue, watch, type MaybeRefOrGetter, type Ref } from "vue";
+import { toValue, watch, type MaybeRefOrGetter } from "vue";
 
 /**
  * Prevents body scrolling when a zoomed state is active.
