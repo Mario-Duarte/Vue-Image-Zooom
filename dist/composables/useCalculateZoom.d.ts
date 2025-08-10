@@ -1,4 +1,4 @@
-import { Ref } from '../../vue/dist/vue.esm-bundler.js';
+import { MaybeRefOrGetter } from '../../vue/dist/vue.esm-bundler.js';
 /**
  * Computes the zoom percentage for an image based on its natural width, container width,
  * and zoom settings. Returns a computed ref with the appropriate zoom value as a string percentage.
@@ -9,5 +9,5 @@ import { Ref } from '../../vue/dist/vue.esm-bundler.js';
  * @param elm - Optional reference to the container HTMLElement.
  * @returns A computed ref containing the zoom percentage as a string (e.g., "100%").
  */
-declare function useCalculateZoom(zoom: string | number, fullWidth: boolean, naturalWidth: Ref<number>, elm?: Ref<HTMLElement | null>): import('../../vue/dist/vue.esm-bundler.js').ComputedRef<string>;
+declare function useCalculateZoom(zoom: MaybeRefOrGetter<string | number>, fullWidth: MaybeRefOrGetter<boolean>, naturalWidth: MaybeRefOrGetter<number>, elm?: MaybeRefOrGetter<HTMLElement | null>): import('../../vue/dist/vue.esm-bundler.js').ComputedRef<string>;
 export default useCalculateZoom;

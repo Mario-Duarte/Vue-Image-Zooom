@@ -1,85 +1,94 @@
 (function(){"use strict";try{if(typeof document<"u"){var e=document.createElement("style");e.appendChild(document.createTextNode('@keyframes rotate-53d63c0a{0%{transform:rotate(0)}to{transform:rotate(360deg)}}div.error[data-v-53d63c0a]{display:flex;align-items:center;justify-content:center;min-height:200px;border:1px solid #eee;background-color:#f9f9f9;border-radius:10px}figure.image-zoom[data-v-53d63c0a]{position:relative;min-height:25vh;background-position:50% 50%;background-color:#eee;margin:0;overflow:hidden;-webkit-user-select:none;user-select:none;cursor:zoom-in}figure.image-zoom.loaded[data-v-53d63c0a]{min-height:auto}figure.image-zoom.zoomed[data-v-53d63c0a]{cursor:zoom-out}figure.image-zoom[data-v-53d63c0a]:before{content:"";background-color:transparent;position:absolute;top:0;left:0;right:0;width:100%;height:100%;opacity:1;transition:opacity .2s ease-in-out;z-index:1}figure.image-zoom[data-v-53d63c0a]:after{content:"";position:absolute;top:calc(50% - 25px);left:calc(50% - 25px);width:50px;height:50px;border-radius:50%;border:5px solid transparent;border-top-color:#333;border-right-color:#333;border-bottom-color:#333;opacity:1;animation:rotate-53d63c0a 2s linear infinite;transition:opacity .2s ease-in-out;z-index:2}figure.image-zoom.loaded[data-v-53d63c0a]:before,figure.image-zoom.loaded[data-v-53d63c0a]:after{opacity:0}figure.image-zoom img[data-v-53d63c0a]{opacity:1;display:block;width:100%;height:auto}figure.image-zoom.zoomed img[data-v-53d63c0a]{opacity:0}')),document.head.appendChild(e)}}catch(o){console.error("vite-plugin-css-injected-by-js",o)}})();
-import { ref as c, watch as f, unref as h, onMounted as R, onUnmounted as H, computed as v, defineComponent as B, useAttrs as V, toRef as O, getCurrentInstance as N, createElementBlock as _, openBlock as E, Fragment as X, withDirectives as k, createElementVNode as w, mergeProps as Y, createCommentVNode as A, vShow as M, normalizeStyle as F, toDisplayString as U } from "vue";
-function j(r, a) {
-  const n = c({
+import { ref as h, watch as y, toValue as c, onMounted as H, onUnmounted as V, computed as p, defineComponent as B, useAttrs as O, toRef as N, getCurrentInstance as X, createElementBlock as _, openBlock as T, Fragment as Y, withDirectives as k, createElementVNode as b, mergeProps as A, unref as v, createCommentVNode as F, vShow as M, normalizeStyle as U, toDisplayString as j } from "vue";
+function q(r, a) {
+  const l = h({
     imgData: null,
     error: !1,
     naturalWidth: 0,
     naturalHeight: 0
   });
   let t = null;
-  const l = () => {
-    t && (n.value = {
+  const n = () => {
+    t && (l.value = {
       imgData: t.src,
       error: !1,
       naturalWidth: t.naturalWidth,
       naturalHeight: t.naturalHeight
     });
-  }, u = (o) => {
-    n.value = {
+  }, i = (o) => {
+    l.value = {
       imgData: null,
       error: !0,
       naturalWidth: 0,
       naturalHeight: 0
     }, a?.(o);
   }, s = () => {
-    n.value = {
+    l.value = {
       imgData: null,
       error: !1,
       naturalWidth: 0,
       naturalHeight: 0
-    }, t && (t.removeEventListener("load", l), t.removeEventListener("error", u));
-    const o = h(r);
-    o && (t = new Image(), t.addEventListener("load", l), t.addEventListener("error", u), t.src = o);
+    }, t && (t.removeEventListener("load", n), t.removeEventListener("error", i));
+    const o = c(r);
+    o && (t = new Image(), t.addEventListener("load", n), t.addEventListener("error", i), t.src = o);
   };
-  return f(
-    () => [h(r)],
+  return y(
+    () => [c(r)],
     () => {
       s();
     },
     { immediate: !0 }
-  ), n;
+  ), l;
 }
-function q(r, a, n, t) {
-  const l = c(0);
-  let u;
-  return R(() => {
-    t?.value && (u = new ResizeObserver((o) => {
-      o[0] && (l.value = o[0].contentRect.width);
-    }), u.observe(t.value));
-  }), H(() => {
-    u && t?.value && u.unobserve(t.value);
-  }), v(() => {
-    if (!a || !n || !l.value) return `${r}`;
-    const o = n.value / l.value * 100;
-    return `${o < 100 ? r : o + "%"}`;
+function G(r, a, l, t) {
+  const n = h(0);
+  let i;
+  return H(() => {
+    const o = t ? c(t) : null;
+    o && (i = new ResizeObserver((u) => {
+      u[0] && (n.value = u[0].contentRect.width);
+    }), i.observe(o));
+  }), V(() => {
+    const o = t ? c(t) : null;
+    i && o && i.unobserve(o);
+  }), p(() => {
+    const o = c(r), u = c(a), f = c(l) ?? 0;
+    if (!u || !n.value || !f) return `${o}`;
+    const m = f / n.value * 100;
+    return `${m < 100 ? o : m + "%"}`;
   });
 }
-function G(r, a) {
-  const n = getComputedStyle(document.body).overflow || "auto", t = (l) => {
-    r.value && l.touches.length === 1 && l.preventDefault();
+function J(r, a) {
+  const l = getComputedStyle(document.body).overflow || "auto", t = (n) => {
+    c(r) && n.touches.length === 1 && n.preventDefault();
   };
-  f([r], ([l]) => {
-    l ? (document.body.style.overflow = "hidden", a.value && t(a.value)) : document.body.style.overflow = n;
+  y([() => c(r)], ([n]) => {
+    if (n) {
+      document.body.style.overflow = "hidden";
+      const i = c(a);
+      i && t(i);
+    } else
+      document.body.style.overflow = l;
   });
 }
-function J(r) {
-  return { getZoomPosition: (n) => {
-    if (!r?.value) return;
-    const t = r.value.getBoundingClientRect();
-    let l, u;
-    if (((o) => "touches" in o)(n)) {
-      const o = n.touches[0];
-      l = (o.clientX - t.x) / t.width * 100, u = (o.clientY - t.y) / t.height * 100;
+function K(r) {
+  return { getZoomPosition: (l) => {
+    const t = r ? c(r) : null;
+    if (!t) return;
+    const n = t.getBoundingClientRect();
+    let i, s;
+    if (((u) => "touches" in u)(l)) {
+      const u = l.touches[0];
+      i = (u.clientX - n.x) / n.width * 100, s = (u.clientY - n.y) / n.height * 100;
     } else
-      l = (n.clientX - t.x) / t.width * 100, u = (n.clientY - t.y) / t.height * 100;
-    return `${Math.max(0, Math.min(l, 100))}% ${Math.max(
+      i = (l.clientX - n.x) / n.width * 100, s = (l.clientY - n.y) / n.height * 100;
+    return `${Math.max(0, Math.min(i, 100))}% ${Math.max(
       0,
-      Math.min(u, 100)
+      Math.min(s, 100)
     )}%`;
   } };
 }
-const K = ["id", "aria-label"], Q = ["src", "alt"], ee = /* @__PURE__ */ B({
+const Q = ["id", "aria-label"], ee = ["src", "alt"], te = /* @__PURE__ */ B({
   __name: "image-zooom",
   props: {
     zoom: { default: "200" },
@@ -93,97 +102,97 @@ const K = ["id", "aria-label"], Q = ["src", "alt"], ee = /* @__PURE__ */ B({
     errorMessage: { default: "There was a problem loading your image" }
   },
   setup(r) {
-    const a = r, n = V(), t = O(a, "src"), l = N(), u = c(l?.uid), s = c(!1), o = c(!1), m = c("50% 50%"), p = c(null), g = c(null), i = j(t, a.onErrorCallback), T = v(() => i.value.naturalWidth || 0), Z = q(a.zoom, a.fullWidth, T, p);
-    G(o, g);
-    const { getZoomPosition: P } = J(p);
-    f(i, (e) => {
+    const a = r, l = O(), t = N(a, "src"), n = X(), i = h(n?.uid), s = h(!1), o = h(!1), u = h("50% 50%"), f = h(null), m = h(null), d = q(t, a.onErrorCallback), W = p(() => d.value.naturalWidth || 0), Z = G(a.zoom, a.fullWidth, W, f);
+    J(o, m);
+    const { getZoomPosition: P } = K(f);
+    y(d, (e) => {
       s.value = e.imgData !== null;
     });
-    const y = (e) => {
+    const w = (e) => {
       if (o.value) {
-        const d = P(e);
-        d && (m.value = d);
+        const g = P(e);
+        g && (u.value = g);
       }
-    }, b = (e) => {
-      g.value = e instanceof TouchEvent ? e : null, o.value = !o.value, y(e);
-    }, W = (e) => {
-      b(e);
+    }, z = (e) => {
+      m.value = e instanceof TouchEvent ? e : null, o.value = !o.value, w(e);
     }, C = (e) => {
-      e.touches.length === 1 && b(e);
+      z(e);
     }, S = (e) => {
-      y(e);
-    }, z = () => {
-      g.value = null, o.value = !1, m.value = "50% 50%";
+      e.touches.length === 1 && z(e);
     }, x = (e) => {
-      y(e);
-    }, I = () => {
-      g.value = null, o.value = !1, m.value = "50% 50%";
+      w(e);
+    }, D = () => {
+      m.value = null, o.value = !1, u.value = "50% 50%";
+    }, I = (e) => {
+      w(e);
+    }, $ = () => {
+      m.value = null, o.value = !1, u.value = "50% 50%";
     };
-    f(i, (e) => {
-      s.value = e.imgData !== null, !e.imgData && !e.error && (o.value = !1, m.value = "50% 50%");
+    y(d, (e) => {
+      s.value = e.imgData !== null, !e.imgData && !e.error && (o.value = !1, u.value = "50% 50%");
     });
-    const D = (e, d) => typeof e == "number" ? `${e}px` : typeof e == "string" && e.trim().length > 0 ? e : d, $ = v(() => {
-      const e = D(a.width, "100%"), d = D(a.height, "auto");
+    const E = (e, g) => typeof e == "number" ? `${e}px` : typeof e == "string" && e.trim().length > 0 ? e : g, R = p(() => {
+      const e = E(a.width, "100%"), g = E(a.height, "auto");
       return {
         width: e,
-        height: d,
-        backgroundImage: i.value.imgData ? `url(${i.value.imgData})` : "",
+        height: g,
+        backgroundImage: d.value.imgData ? `url(${d.value.imgData})` : "",
         backgroundSize: Z.value,
-        backgroundPosition: m.value,
+        backgroundPosition: u.value,
         cursor: o.value ? "zoom-out" : "zoom-in"
       };
-    }), L = v(() => ({
+    }), L = p(() => ({
       width: a.fullWidth ? "100%" : typeof a.width == "string" ? a.width : `${a.width}px`,
       height: typeof a.height == "string" ? a.height : `${a.height}px`
     }));
-    return (e, d) => (E(), _(X, null, [
-      k(w("figure", Y({
-        id: a.id || `image-zoom-${u.value}`,
+    return (e, g) => (T(), _(Y, null, [
+      k(b("figure", A({
+        id: a.id || `image-zoom-${i.value}`,
         class: ["image-zoom", { loaded: s.value, loading: !s.value, zoomed: o.value, fullView: !o.value }],
         ref_key: "figureRef",
-        ref: p,
+        ref: f,
         role: "button",
         "aria-label": "Zoomable image: " + e.alt,
         tabIndex: "0",
-        style: $.value,
-        onClick: W,
-        onMousemove: x,
-        onMouseleave: I,
-        onTouchstart: C,
-        onTouchmove: S,
-        onTouchend: z,
-        onTouchcancel: z
-      }, h(n)), [
-        h(i).imgData ? (E(), _("img", {
+        style: R.value,
+        onClick: C,
+        onMousemove: I,
+        onMouseleave: $,
+        onTouchstart: S,
+        onTouchmove: x,
+        onTouchend: D,
+        onTouchcancel: D
+      }, v(l)), [
+        v(d).imgData ? (T(), _("img", {
           key: 0,
           loading: "lazy",
           id: "imageZoom",
-          src: h(i).imgData,
+          src: v(d).imgData,
           alt: e.alt
-        }, null, 8, Q)) : A("", !0)
-      ], 16, K), [
-        [M, !h(i).error]
+        }, null, 8, ee)) : F("", !0)
+      ], 16, Q), [
+        [M, !v(d).error]
       ]),
-      k(w("div", {
+      k(b("div", {
         class: "error",
-        style: F(L.value)
+        style: U(L.value)
       }, [
-        w("p", null, U(e.errorMessage), 1)
+        b("p", null, j(e.errorMessage), 1)
       ], 4), [
-        [M, h(i).error]
+        [M, v(d).error]
       ])
     ], 64));
   }
-}), te = (r, a) => {
-  const n = r.__vccOpts || r;
-  for (const [t, l] of a)
-    n[t] = l;
-  return n;
-}, oe = /* @__PURE__ */ te(ee, [["__scopeId", "data-v-53d63c0a"]]), ne = (r) => {
-  r.component("ImageZooom", oe);
+}), oe = (r, a) => {
+  const l = r.__vccOpts || r;
+  for (const [t, n] of a)
+    l[t] = n;
+  return l;
+}, ne = /* @__PURE__ */ oe(te, [["__scopeId", "data-v-53d63c0a"]]), le = (r) => {
+  r.component("ImageZooom", ne);
 };
 export {
-  oe as ImageZooom,
-  oe as default,
-  ne as install
+  ne as ImageZooom,
+  ne as default,
+  le as install
 };
