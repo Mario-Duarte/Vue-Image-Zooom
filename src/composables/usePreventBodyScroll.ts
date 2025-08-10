@@ -1,4 +1,4 @@
-import { watch, type Ref } from "vue";
+import { toValue, watch, type MaybeRefOrGetter, type Ref } from "vue";
 
 /**
  * Prevents body scrolling when a zoomed state is active.
@@ -15,22 +15,23 @@ import { watch, type Ref } from "vue";
  */
 
 function usePreventBodyScroll(
-  isZoomed: Ref<boolean>,
-  isTouchEventRef: Ref<TouchEvent | null>,
+  isZoomed: MaybeRefOrGetter<boolean>,
+  isTouchEventRef: MaybeRefOrGetter<TouchEvent | null>,
 ) {
   const originalOverflow = getComputedStyle(document.body).overflow || "auto";
 
   const preventScroll = (e: TouchEvent) => {
-    if (isZoomed.value && e.touches.length === 1) {
+    if (toValue(isZoomed) && e.touches.length === 1) {
       e.preventDefault();
     }
   };
 
-  watch([isZoomed], ([zoomed]) => {
+  watch([() => toValue(isZoomed)], ([zoomed]) => {
     if (zoomed) {
       document.body.style.overflow = "hidden";
-      if (isTouchEventRef.value) {
-        preventScroll(isTouchEventRef.value);
+      const touch = toValue(isTouchEventRef);
+      if (touch) {
+        preventScroll(touch);
       }
     } else {
       document.body.style.overflow = originalOverflow;

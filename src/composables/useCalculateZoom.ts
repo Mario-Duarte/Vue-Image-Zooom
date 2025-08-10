@@ -1,4 +1,4 @@
-import { computed, onMounted, onUnmounted, ref, type Ref } from "vue";
+import { computed, onMounted, onUnmounted, ref, toValue, type MaybeRefOrGetter, type Ref } from "vue";
 
 /**
  * Computes the zoom percentage for an image based on its natural width, container width,
@@ -12,35 +12,42 @@ import { computed, onMounted, onUnmounted, ref, type Ref } from "vue";
  */
 
 function useCalculateZoom(
-  zoom: string | number,
-  fullWidth: boolean,
-  naturalWidth: Ref<number>,
-  elm?: Ref<HTMLElement | null>
+  zoom: MaybeRefOrGetter<string | number>,
+  fullWidth: MaybeRefOrGetter<boolean>,
+  naturalWidth: MaybeRefOrGetter<number>,
+  elm?: MaybeRefOrGetter<HTMLElement | null>
 ) {
   const containerWidth = ref(0);
-  let observer: ResizeObserver;
+  let observer: ResizeObserver | undefined;
 
   onMounted(() => {
-    if (elm?.value) {
+    const el = elm ? toValue(elm) : null;
+    if (el) {
       observer = new ResizeObserver((entries) => {
         if (entries[0]) {
           containerWidth.value = entries[0].contentRect.width;
         }
       });
-      observer.observe(elm.value);
+      observer.observe(el);
     }
   });
 
   onUnmounted(() => {
-    if (observer && elm?.value) {
-      observer.unobserve(elm.value);
+    const el = elm ? toValue(elm) : null;
+    if (observer && el) {
+      observer.unobserve(el);
     }
   });
 
   const zoomValue = computed(() => {
-    if (!fullWidth || !naturalWidth || !containerWidth.value) return `${zoom}`;
-    const zoomPercentage = (naturalWidth.value / containerWidth.value) * 100;
-    return `${zoomPercentage < 100 ? zoom : zoomPercentage + "%"}`;
+    const z = toValue(zoom);
+    const fw = toValue(fullWidth);
+    const nw = toValue(naturalWidth) || 0;
+
+    if (!fw || !containerWidth.value || !nw) return `${z}`;
+
+    const zoomPercentage = (nw / containerWidth.value) * 100;
+    return `${zoomPercentage < 100 ? z : zoomPercentage + "%"}`;
   });
 
   return zoomValue;
