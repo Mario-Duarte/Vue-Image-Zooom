@@ -42,7 +42,7 @@ function useCalculateZoom(
   const zoomValue = computed(() => {
     const z = toValue(zoom);
     const fw = toValue(fullWidth);
-    const nw = toValue(naturalWidth) || 0;
+    const nw = toValue(naturalWidth) ?? 0;
 
     if (!fw || !containerWidth.value || !nw) return `${z}`;
 
