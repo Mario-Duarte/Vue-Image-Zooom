@@ -23,7 +23,7 @@ interface ImageLoaderState {
   naturalHeight: number;
 }
 
-function useImageLoaded(src: MaybeRefOrGetter<string | undefined>, onError?: (error: Event) => void) {
+function useImageLoaded(src: MaybeRefOrGetter<string | undefined>, onError?: (error: Event | ErrorEvent) => void) {
   const state = ref<ImageLoaderState>({
     imgData: null,
     error: false,
