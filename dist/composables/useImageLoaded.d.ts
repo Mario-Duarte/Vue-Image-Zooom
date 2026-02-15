@@ -20,7 +20,7 @@ interface ImageLoaderState {
     naturalWidth: number;
     naturalHeight: number;
 }
-declare function useImageLoaded(src: MaybeRefOrGetter<string | undefined>, onError?: (error: Event) => void): import('../../vue/dist/vue.esm-bundler.js').Ref<{
+declare function useImageLoaded(src: MaybeRefOrGetter<string | undefined>, onError?: (error: Event | ErrorEvent) => void): import('../../vue/dist/vue.esm-bundler.js').Ref<{
     imgData: string | null;
     error: boolean;
     naturalWidth: number;
