@@ -183,7 +183,6 @@ div.error {
 figure.image-zoom {
     position: relative;
     display: inline-block;
-    width: auto;
     min-height: 25vh;
     background-position: 50% 50%;
     background-color: #eee;
