@@ -22,7 +22,7 @@ It will have the class `loading` while the image is been preloaded and `loaded` 
 
 Additionally it will have the class `fullview` while the user has not initiated the zoom and `zoomed` once the user has taped/clicked in.
 
-On touch enabled devices users can use one finger to zoom in and move the zoom location by dragging the finder on the image, this will disable the scrolling. Touching with more than 1 finger on the image will not activate the zoom and page will scroll as normal, this was decided this way as it is easier to use one finger to zoom and drag on the image.
+On touch enabled devices users can use one finger to zoom in and move the zoom location by dragging the finger on the image, this will disable the scrolling. Touching with more than 1 finger on the image will not activate the zoom and page will scroll as normal, this was decided this way as it is easier to use one finger to zoom and drag on the image.
 
 ### v1.5.0
 
