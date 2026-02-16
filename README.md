@@ -22,26 +22,27 @@ It will have the class `loading` while the image is been preloaded and `loaded` 
 
 Additionally it will have the class `fullview` while the user has not initiated the zoom and `zoomed` once the user has taped/clicked in.
 
-On touch enabled devices users can use one finger to zoom in and move the zoom location by dragging the finder on the image, this will disable the scrolling. Touching with more than 1 finger on the image will not activate the zoom and page will scroll as normal, this was decided this way as it is easier to use one finger to zoom and drag on the image.
+On touch enabled devices users can use one finger to zoom in and move the zoom location by dragging the finger on the image, this will disable the scrolling. Touching with more than 1 finger on the image will not activate the zoom and page will scroll as normal, this was decided this way as it is easier to use one finger to zoom and drag on the image.
 
-### v1.4.0
-
-Change log:
-- Fixed issue where dynamicly changing the src attribute in the component would not cause the component to re-render due to the props of the `ImageZooom` been destructured and losing the ref status.
-
-### v1.3.0
+### v1.5.0
 
 Change log:
-- Passing attributes properly down to the `figure` tag using `useAttrs`
-- Clarified fullWidth behavior: when fullWidth is true the zoom fits the image’s natural width to the container, it does not upscale images smaller than the container and will fall back to the provided zoom value.
-- Sizing and defaults
-    - `width`/`height` props accept string | number and are normalized in `image-zooom.vue` (numbers become px; empty strings fall back to 100%/auto).
-The rendered `<img>` uses `width: 100%; height: auto;` inside the figure.
 
-### V1.2.0
+- Added `onError` prop as the preferred error callback, the existing `onErrorCallback` prop is now deprecated but still fully functional.
+- Added `theme` prop accepting `{ root?: string, image?: string }` for targeted custom CSS classes on the figure and image elements.
+- Added `<slot name="error">` for custom error UI. When provided, it replaces the default error message. The existing `errorMessage` prop continues to work as the default slot content.
+- Added `ImageZoomClasses` type export for TypeScript consumers.
+- `width` and `height` props are now passed through to the `<img>` element.
+- Added `display: inline-block` to the base figure CSS.
+- Fixed touch/click deduplication to prevent the mobile double-fire bug where both `touchstart` and `click` events would trigger zoom.
+- `backgroundImage` is now only set when zoomed, avoiding unnecessary background rendering.
+- Enhanced `handleTouchMove` to call `preventDefault()` for single-touch and initiate zoom during drag if not already zoomed.
+- Improved `usePreventBodyScroll` composable with element-level `touchmove` listener using `{ passive: false }` for more robust scroll prevention on touch devices.
+- Switched error rendering from `v-show` to `v-if`/`v-else` to avoid rendering the figure DOM when an error occurs.
+- Merged duplicate internal watchers into a single watcher.
+- Added `p.image-zooom-error` CSS styling for error messages.
 
-Change log:
-- Renamed the package from `VueImageZooom` to `ImageZooom` and updated documentation.
+[View changelog](https://github.com/Mario-Duarte/Vue-Image-Zooom/blob/main/CHANGELOG.md) for previous release notes.
 
 ## How to use
 
@@ -103,14 +104,16 @@ import { ImageZooom } from 'vue-image-zooom';
 
 ## Props
 
-| Prop              | Type                      | Default                               | Description                                                                 |
-|-------------------|---------------------------|---------------------------------------|-----------------------------------------------------------------------------|
-| `src`             | `string`                  | **Required**                          | The source URL of the image to display.                                     |
-| `alt`             | `string`                  | `'This is an imageZoom image'`        | The alt text for the image.                                                 |
-| `zoom`            | `string \| number`        | `'200'`                               | The zoom level as a percentage (e.g., '200%') or a number.                  |
-| `width`           | `string \| number`        | `'100%'`                              | The width of the component container.                                       |
-| `height`          | `string \| number`        | `'auto'`                              | The height of the component container.                                      |
-| `fullWidth`       | `boolean`                 | `false`                               | If true, the zoom level is calculated to fit the image's natural width.     |
-| `id`              | `string`                  | `undefined`                           | A custom ID for the figure element. A unique ID is generated if not provided. |
-| `errorMessage`    | `string`                  | `'There was a problem...'`            | Custom message to display if the image fails to load.                       |
-| `onErrorCallback` | `(error: Event) => void`  | `undefined`                           | A callback function that fires when the image fails to load.                |
+| Prop              | Type                              | Default                               | Description                                                                 |
+|-------------------|-----------------------------------|---------------------------------------|-----------------------------------------------------------------------------|
+| `src`             | `string`                          | **Required**                          | The source URL of the image to display.                                     |
+| `alt`             | `string`                          | `'This is an imageZoom image'`        | The alt text for the image.                                                 |
+| `zoom`            | `string \| number`                | `'200'`                               | The zoom level as a percentage (e.g., '200%') or a number.                  |
+| `width`           | `string \| number`                | `'100%'`                              | The width of the component container.                                       |
+| `height`          | `string \| number`                | `'auto'`                              | The height of the component container.                                      |
+| `fullWidth`       | `boolean`                         | `false`                               | If true, the zoom level is calculated to fit the image's natural width.     |
+| `id`              | `string`                          | `undefined`                           | A custom ID for the figure element. A unique ID is generated if not provided. |
+| `errorMessage`    | `string`                          | `'There was a problem...'`            | Custom message to display if the image fails to load.                       |
+| `onError`         | `(error: Event \| ErrorEvent) => void` | `undefined`                      | A callback function that fires when the image fails to load.                |
+| `onErrorCallback` | `(error: Event) => void`          | `undefined`                           | **Deprecated.** Use `onError` instead. Still functional for backward compatibility. |
+| `theme`           | `{ root?: string, image?: string }` | `undefined`                         | Custom CSS classes for the figure (`root`) and image (`image`) elements.    |

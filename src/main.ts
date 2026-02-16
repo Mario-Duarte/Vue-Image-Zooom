@@ -14,7 +14,7 @@ const app = createApp({
   template: `
     <div>
       <h1 style="margin-bottom: 20px;">Vue Image Zoom Demo</h1>
-      <div style="max-width: 600px; display: flex; flex-direction: column; gap: 20px; align-items: flex-start;">
+      <div style="max-width: 960px; display: flex; flex-direction: column; gap: 20px; align-items: flex-start;">
       <ImageZooom 
         :class="'custom-class'"
         :src="selectedImg" 
@@ -36,11 +36,37 @@ const app = createApp({
       />
       <ImageZooom 
         src="https://picsum.photos/sed/000/1920/1080" 
-        alt="Demo image custom error" 
+        alt="Demo image custom error (onErrorCallback - deprecated)" 
         fullWidth
         :onErrorCallback="(error) => console.error('Image load error:', error)"
         :errorMessage="'Custom error message: Image failed to load'"
       />
+      <ImageZooom 
+        src="https://picsum.photos/sed/000/1920/1080" 
+        alt="Demo image custom error (onError)" 
+        fullWidth
+        :onError="(error) => console.error('Image load error (onError):', error)"
+        :errorMessage="'Custom error via onError prop'"
+      />
+      <ImageZooom 
+        src="https://picsum.photos/seed/001/800/600" 
+        alt="Demo image with theme" 
+        :width="400"
+        zoom="200%"
+        :theme="{ root: 'themed-root', image: 'themed-image' }"
+      />
+      <ImageZooom 
+        src="https://picsum.photos/sed/000/1920/1080" 
+        alt="Demo image with error slot" 
+        :width="300"
+      >
+        <template #error>
+          <div style="padding: 20px; background: #fee; border: 1px solid #fcc; border-radius: 8px; text-align: center;">
+            <strong>Custom error slot content</strong>
+            <p>This image could not be loaded.</p>
+          </div>
+        </template>
+      </ImageZooom>
       </div>
     </div>
   `,

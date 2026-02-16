@@ -1,94 +1,100 @@
-(function(){"use strict";try{if(typeof document<"u"){var e=document.createElement("style");e.appendChild(document.createTextNode('@keyframes rotate-53d63c0a{0%{transform:rotate(0)}to{transform:rotate(360deg)}}div.error[data-v-53d63c0a]{display:flex;align-items:center;justify-content:center;min-height:200px;border:1px solid #eee;background-color:#f9f9f9;border-radius:10px}figure.image-zoom[data-v-53d63c0a]{position:relative;min-height:25vh;background-position:50% 50%;background-color:#eee;margin:0;overflow:hidden;-webkit-user-select:none;user-select:none;cursor:zoom-in}figure.image-zoom.loaded[data-v-53d63c0a]{min-height:auto}figure.image-zoom.zoomed[data-v-53d63c0a]{cursor:zoom-out}figure.image-zoom[data-v-53d63c0a]:before{content:"";background-color:transparent;position:absolute;top:0;left:0;right:0;width:100%;height:100%;opacity:1;transition:opacity .2s ease-in-out;z-index:1}figure.image-zoom[data-v-53d63c0a]:after{content:"";position:absolute;top:calc(50% - 25px);left:calc(50% - 25px);width:50px;height:50px;border-radius:50%;border:5px solid transparent;border-top-color:#333;border-right-color:#333;border-bottom-color:#333;opacity:1;animation:rotate-53d63c0a 2s linear infinite;transition:opacity .2s ease-in-out;z-index:2}figure.image-zoom.loaded[data-v-53d63c0a]:before,figure.image-zoom.loaded[data-v-53d63c0a]:after{opacity:0}figure.image-zoom img[data-v-53d63c0a]{opacity:1;display:block;width:100%;height:auto}figure.image-zoom.zoomed img[data-v-53d63c0a]{opacity:0}')),document.head.appendChild(e)}}catch(o){console.error("vite-plugin-css-injected-by-js",o)}})();
-import { ref as h, watch as y, toValue as c, onMounted as H, onUnmounted as V, computed as p, defineComponent as B, useAttrs as O, toRef as N, getCurrentInstance as X, createElementBlock as _, openBlock as T, Fragment as Y, withDirectives as k, createElementVNode as b, mergeProps as A, unref as v, createCommentVNode as F, vShow as M, normalizeStyle as U, toDisplayString as j } from "vue";
-function q(r, a) {
-  const l = h({
+(function(){"use strict";try{if(typeof document<"u"){var e=document.createElement("style");e.appendChild(document.createTextNode('@keyframes rotate-4003de89{0%{transform:rotate(0)}to{transform:rotate(360deg)}}div.error[data-v-4003de89]{display:flex;align-items:center;justify-content:center;min-height:200px;border:1px solid #eee;background-color:#f9f9f9;border-radius:10px}figure.image-zoom[data-v-4003de89]{position:relative;display:inline-block;min-height:25vh;background-position:50% 50%;background-color:#eee;margin:0;overflow:hidden;-webkit-user-select:none;user-select:none;cursor:zoom-in}figure.image-zoom.loaded[data-v-4003de89]{min-height:auto}figure.image-zoom.zoomed[data-v-4003de89]{cursor:zoom-out}figure.image-zoom[data-v-4003de89]:before{content:"";background-color:transparent;position:absolute;top:0;left:0;right:0;width:100%;height:100%;opacity:1;transition:opacity .2s ease-in-out;z-index:1}figure.image-zoom[data-v-4003de89]:after{content:"";position:absolute;top:calc(50% - 25px);left:calc(50% - 25px);width:50px;height:50px;border-radius:50%;border:5px solid transparent;border-top-color:#333;border-right-color:#333;border-bottom-color:#333;opacity:1;animation:rotate-4003de89 2s linear infinite;transition:opacity .2s ease-in-out;z-index:2}figure.image-zoom.loaded[data-v-4003de89]:before,figure.image-zoom.loaded[data-v-4003de89]:after{opacity:0}figure.image-zoom img[data-v-4003de89]{opacity:1;display:block}figure.image-zoom.zoomed img[data-v-4003de89]{opacity:0}p.image-zooom-error[data-v-4003de89]{width:100%;text-align:center;border:1px solid #f8f8f8;padding:8px 16px;border-radius:8px;color:#555}')),document.head.appendChild(e)}}catch(o){console.error("vite-plugin-css-injected-by-js",o)}})();
+import { ref as f, watch as y, toValue as c, onMounted as H, onUnmounted as T, computed as p, defineComponent as V, useAttrs as B, toRef as O, getCurrentInstance as N, createElementBlock as w, unref as v, openBlock as b, mergeProps as X, createCommentVNode as Y, normalizeClass as A, normalizeStyle as F, renderSlot as U, createElementVNode as j, toDisplayString as q } from "vue";
+function G(i, n) {
+  const r = f({
     imgData: null,
     error: !1,
     naturalWidth: 0,
     naturalHeight: 0
   });
-  let t = null;
-  const n = () => {
-    t && (l.value = {
-      imgData: t.src,
+  let o = null;
+  const a = () => {
+    o && (r.value = {
+      imgData: o.src,
       error: !1,
-      naturalWidth: t.naturalWidth,
-      naturalHeight: t.naturalHeight
+      naturalWidth: o.naturalWidth,
+      naturalHeight: o.naturalHeight
     });
-  }, i = (o) => {
-    l.value = {
+  }, u = (t) => {
+    r.value = {
       imgData: null,
       error: !0,
       naturalWidth: 0,
       naturalHeight: 0
-    }, a?.(o);
+    }, n?.(t);
   }, s = () => {
-    l.value = {
+    r.value = {
       imgData: null,
       error: !1,
       naturalWidth: 0,
       naturalHeight: 0
-    }, t && (t.removeEventListener("load", n), t.removeEventListener("error", i));
-    const o = c(r);
-    o && (t = new Image(), t.addEventListener("load", n), t.addEventListener("error", i), t.src = o);
+    }, o && (o.removeEventListener("load", a), o.removeEventListener("error", u));
+    const t = c(i);
+    t && (o = new Image(), o.addEventListener("load", a), o.addEventListener("error", u), o.src = t);
   };
   return y(
-    () => [c(r)],
+    () => [c(i)],
     () => {
       s();
     },
     { immediate: !0 }
-  ), l;
+  ), r;
 }
-function G(r, a, l, t) {
-  const n = h(0);
-  let i;
+function J(i, n, r, o) {
+  const a = f(0);
+  let u;
   return H(() => {
-    const o = t ? c(t) : null;
-    o && (i = new ResizeObserver((u) => {
-      u[0] && (n.value = u[0].contentRect.width);
-    }), i.observe(o));
-  }), V(() => {
-    const o = t ? c(t) : null;
-    i && o && i.unobserve(o);
+    const t = o ? c(o) : null;
+    t && (u = new ResizeObserver((l) => {
+      l[0] && (a.value = l[0].contentRect.width);
+    }), u.observe(t));
+  }), T(() => {
+    const t = o ? c(o) : null;
+    u && t && u.unobserve(t);
   }), p(() => {
-    const o = c(r), u = c(a), f = c(l) ?? 0;
-    if (!u || !n.value || !f) return `${o}`;
-    const m = f / n.value * 100;
-    return `${m < 100 ? o : m + "%"}`;
+    const t = c(i), l = c(n), d = c(r) ?? 0;
+    if (!l || !a.value || !d) return `${t}`;
+    const h = d / a.value * 100;
+    return `${h < 100 ? t : h + "%"}`;
   });
 }
-function J(r, a) {
-  const l = getComputedStyle(document.body).overflow || "auto", t = (n) => {
-    c(r) && n.touches.length === 1 && n.preventDefault();
+function K(i, n) {
+  const r = getComputedStyle(document.body).overflow || "auto";
+  y([() => c(i)], ([s]) => {
+    s ? document.body.style.overflow = "hidden" : document.body.style.overflow = r;
+  });
+  let o = null, a = null;
+  const u = () => {
+    o && a && (a.removeEventListener("touchmove", o), o = null, a = null);
   };
-  y([() => c(r)], ([n]) => {
-    if (n) {
-      document.body.style.overflow = "hidden";
-      const i = c(a);
-      i && t(i);
-    } else
-      document.body.style.overflow = l;
+  y([() => c(i), () => c(n)], ([s, t]) => {
+    if (u(), !t) return;
+    const l = (d) => {
+      s && d.touches.length === 1 && d.preventDefault();
+    };
+    s && (t.addEventListener("touchmove", l, { passive: !1 }), o = l, a = t);
+  }), T(() => {
+    document.body.style.overflow = r, u();
   });
 }
-function K(r) {
-  return { getZoomPosition: (l) => {
-    const t = r ? c(r) : null;
-    if (!t) return;
-    const n = t.getBoundingClientRect();
-    let i, s;
-    if (((u) => "touches" in u)(l)) {
-      const u = l.touches[0];
-      i = (u.clientX - n.x) / n.width * 100, s = (u.clientY - n.y) / n.height * 100;
+function Q(i) {
+  return { getZoomPosition: (r) => {
+    const o = i ? c(i) : null;
+    if (!o) return;
+    const a = o.getBoundingClientRect();
+    let u, s;
+    if (((l) => "touches" in l)(r)) {
+      const l = r.touches[0];
+      u = (l.clientX - a.x) / a.width * 100, s = (l.clientY - a.y) / a.height * 100;
     } else
-      i = (l.clientX - n.x) / n.width * 100, s = (l.clientY - n.y) / n.height * 100;
-    return `${Math.max(0, Math.min(i, 100))}% ${Math.max(
+      u = (r.clientX - a.x) / a.width * 100, s = (r.clientY - a.y) / a.height * 100;
+    return `${Math.max(0, Math.min(u, 100))}% ${Math.max(
       0,
       Math.min(s, 100)
     )}%`;
   } };
 }
-const Q = ["id", "aria-label"], ee = ["src", "alt"], te = /* @__PURE__ */ B({
+const ee = ["id", "aria-label"], te = ["src", "alt", "width", "height"], oe = { class: "image-zooom-error" }, ne = /* @__PURE__ */ V({
   __name: "image-zooom",
   props: {
     zoom: { default: "200" },
@@ -99,100 +105,108 @@ const Q = ["id", "aria-label"], ee = ["src", "alt"], te = /* @__PURE__ */ B({
     src: {},
     id: { default: void 0 },
     onErrorCallback: {},
-    errorMessage: { default: "There was a problem loading your image" }
+    onError: { type: Function, default: void 0 },
+    errorMessage: { default: "There was a problem loading your image" },
+    theme: { default: void 0 }
   },
-  setup(r) {
-    const a = r, l = O(), t = N(a, "src"), n = X(), i = h(n?.uid), s = h(!1), o = h(!1), u = h("50% 50%"), f = h(null), m = h(null), d = q(t, a.onErrorCallback), W = p(() => d.value.naturalWidth || 0), Z = G(a.zoom, a.fullWidth, W, f);
-    J(o, m);
-    const { getZoomPosition: P } = K(f);
-    y(d, (e) => {
-      s.value = e.imgData !== null;
+  setup(i) {
+    const n = i, r = B(), o = O(n, "src"), a = N(), u = f(a?.uid), s = f(!1), t = f(!1), l = f("50% 50%"), d = f(null), h = f(!1), g = G(o, n.onError ?? n.onErrorCallback), W = p(() => g.value.naturalWidth || 0), C = J(n.zoom, n.fullWidth, W, d);
+    K(t, d);
+    const { getZoomPosition: z } = Q(d);
+    y(g, (e) => {
+      s.value = e.imgData !== null, !e.imgData && !e.error && (t.value = !1, l.value = "50% 50%");
     });
-    const w = (e) => {
-      if (o.value) {
-        const g = P(e);
-        g && (u.value = g);
+    const E = (e) => {
+      if (t.value) {
+        const m = z(e);
+        m && (l.value = m);
       }
-    }, z = (e) => {
-      m.value = e instanceof TouchEvent ? e : null, o.value = !o.value, w(e);
-    }, C = (e) => {
-      z(e);
-    }, S = (e) => {
-      e.touches.length === 1 && z(e);
-    }, x = (e) => {
-      w(e);
-    }, D = () => {
-      m.value = null, o.value = !1, u.value = "50% 50%";
+    }, k = (e, m = !1) => {
+      m && (h.value = !0);
+      const M = !t.value;
+      if (t.value = M, M) {
+        const P = z(e);
+        P && (l.value = P);
+      } else
+        l.value = "50% 50%";
     }, I = (e) => {
-      w(e);
+      if (h.value) {
+        h.value = !1;
+        return;
+      }
+      k(e);
+    }, D = (e) => {
+      e.touches.length === 1 && k(e, !0);
+    }, L = (e) => {
+      e.touches.length === 1 && (e.preventDefault(), h.value = !0, t.value ? E(e) : D(e));
+    }, Z = () => {
+      h.value = !1, t.value = !1, l.value = "50% 50%";
+    }, S = (e) => {
+      E(e);
     }, $ = () => {
-      m.value = null, o.value = !1, u.value = "50% 50%";
-    };
-    y(d, (e) => {
-      s.value = e.imgData !== null, !e.imgData && !e.error && (o.value = !1, u.value = "50% 50%");
-    });
-    const E = (e, g) => typeof e == "number" ? `${e}px` : typeof e == "string" && e.trim().length > 0 ? e : g, R = p(() => {
-      const e = E(a.width, "100%"), g = E(a.height, "auto");
+      h.value = !1, t.value = !1, l.value = "50% 50%";
+    }, _ = (e, m) => typeof e == "number" ? `${e}px` : typeof e == "string" && e.trim().length > 0 ? e : m, R = p(() => {
+      const e = _(n.width, "100%"), m = _(n.height, "auto");
       return {
         width: e,
-        height: g,
-        backgroundImage: d.value.imgData ? `url(${d.value.imgData})` : "",
-        backgroundSize: Z.value,
-        backgroundPosition: u.value,
-        cursor: o.value ? "zoom-out" : "zoom-in"
+        height: m,
+        backgroundImage: t.value && g.value.imgData ? `url(${g.value.imgData})` : "",
+        backgroundSize: C.value,
+        backgroundPosition: l.value,
+        cursor: t.value ? "zoom-out" : "zoom-in"
       };
-    }), L = p(() => ({
-      width: a.fullWidth ? "100%" : typeof a.width == "string" ? a.width : `${a.width}px`,
-      height: typeof a.height == "string" ? a.height : `${a.height}px`
+    }), x = p(() => ({
+      width: n.fullWidth ? "100%" : typeof n.width == "string" ? n.width : `${n.width}px`,
+      height: typeof n.height == "string" ? n.height : `${n.height}px`
     }));
-    return (e, g) => (T(), _(Y, null, [
-      k(b("figure", A({
-        id: a.id || `image-zoom-${i.value}`,
-        class: ["image-zoom", { loaded: s.value, loading: !s.value, zoomed: o.value, fullView: !o.value }],
-        ref_key: "figureRef",
-        ref: f,
-        role: "button",
-        "aria-label": "Zoomable image: " + e.alt,
-        tabIndex: "0",
-        style: R.value,
-        onClick: C,
-        onMousemove: I,
-        onMouseleave: $,
-        onTouchstart: S,
-        onTouchmove: x,
-        onTouchend: D,
-        onTouchcancel: D
-      }, v(l)), [
-        v(d).imgData ? (T(), _("img", {
-          key: 0,
-          loading: "lazy",
-          id: "imageZoom",
-          src: v(d).imgData,
-          alt: e.alt
-        }, null, 8, ee)) : F("", !0)
-      ], 16, Q), [
-        [M, !v(d).error]
-      ]),
-      k(b("div", {
-        class: "error",
-        style: U(L.value)
-      }, [
-        b("p", null, j(e.errorMessage), 1)
-      ], 4), [
-        [M, v(d).error]
-      ])
-    ], 64));
+    return (e, m) => v(g).error ? (b(), w("div", {
+      key: 1,
+      class: "error",
+      style: F(x.value)
+    }, [
+      U(e.$slots, "error", {}, () => [
+        j("p", oe, q(e.errorMessage), 1)
+      ], !0)
+    ], 4)) : (b(), w("figure", X({
+      key: 0,
+      id: n.id || `image-zoom-${u.value}`,
+      class: ["image-zoom", { loaded: s.value, loading: !s.value, zoomed: t.value, fullView: !t.value }, n.theme?.root],
+      ref_key: "figureRef",
+      ref: d,
+      role: "button",
+      "aria-label": "Zoomable image: " + e.alt,
+      tabIndex: "0",
+      style: R.value,
+      onClick: I,
+      onMousemove: S,
+      onMouseleave: $,
+      onTouchstart: D,
+      onTouchmove: L,
+      onTouchend: Z,
+      onTouchcancel: Z
+    }, v(r)), [
+      v(g).imgData ? (b(), w("img", {
+        key: 0,
+        loading: "lazy",
+        id: "imageZoom",
+        class: A(n.theme?.image),
+        src: v(g).imgData,
+        alt: e.alt,
+        width: e.width,
+        height: e.height
+      }, null, 10, te)) : Y("", !0)
+    ], 16, ee));
   }
-}), oe = (r, a) => {
-  const l = r.__vccOpts || r;
-  for (const [t, n] of a)
-    l[t] = n;
-  return l;
-}, ne = /* @__PURE__ */ oe(te, [["__scopeId", "data-v-53d63c0a"]]), le = (r) => {
-  r.component("ImageZooom", ne);
+}), ae = (i, n) => {
+  const r = i.__vccOpts || i;
+  for (const [o, a] of n)
+    r[o] = a;
+  return r;
+}, le = /* @__PURE__ */ ae(ne, [["__scopeId", "data-v-4003de89"]]), ie = (i) => {
+  i.component("ImageZooom", le);
 };
 export {
-  ne as ImageZooom,
-  ne as default,
-  le as install
+  le as ImageZooom,
+  le as default,
+  ie as install
 };

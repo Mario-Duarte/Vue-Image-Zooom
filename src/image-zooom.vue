@@ -13,7 +13,9 @@ const props = withDefaults(defineProps<ImageZooomProps>(), {
   alt: "This is an imageZoom image",
   width: "100%",
   height: "auto",
-  errorMessage: "There was a problem loading your image"
+  errorMessage: "There was a problem loading your image",
+  onError: undefined,
+  theme: undefined,
 });
 
 const attrs = useAttrs();
@@ -24,16 +26,21 @@ const isLoaded = ref(false);
 const isZoomed = ref(false);
 const zoomPosition = ref('50% 50%');
 const figureRef = ref<HTMLElement | null>(null);
-const isTouchEventRef = ref<TouchEvent | null>(null);
+const isTouchEventRef = ref<boolean>(false);
 
-const imageState = useImageLoaded(srcRef, props.onErrorCallback);
+const imageState = useImageLoaded(srcRef, props.onError ?? props.onErrorCallback);
 const naturalWidth = computed(() => imageState.value.naturalWidth || 0);
 const calculatedZoom = useCalculateZoom(props.zoom, props.fullWidth, naturalWidth, figureRef);
-usePreventBodyScroll(isZoomed, isTouchEventRef);
+usePreventBodyScroll(isZoomed, figureRef);
 const { getZoomPosition } = useZoomPosition(figureRef);
 
 watch(imageState, (newState) => {
     isLoaded.value = newState.imgData !== null;
+
+    if (!newState.imgData && !newState.error) {
+        isZoomed.value = false;
+        zoomPosition.value = '50% 50%';
+    }
 });
 
 const updatePosition = (
@@ -47,28 +54,53 @@ const updatePosition = (
     }
 };
 
-const toggleZoom = (e: MouseEvent | TouchEvent) => {
-    isTouchEventRef.value = e instanceof TouchEvent ? e : null;
-    isZoomed.value = !isZoomed.value;
-    updatePosition(e);
+const toggleZoom = (e: MouseEvent | TouchEvent, isTouchEvent: boolean = false) => {
+    if (isTouchEvent) {
+        isTouchEventRef.value = true;
+    }
+
+    const newIsZoomed = !isZoomed.value;
+    isZoomed.value = newIsZoomed;
+
+    if (newIsZoomed) {
+        const newPosition = getZoomPosition(e);
+        if (newPosition) {
+            zoomPosition.value = newPosition;
+        }
+    } else {
+        zoomPosition.value = "50% 50%";
+    }
 };
 
 const handleClick = (e: MouseEvent) => {
+    if (isTouchEventRef.value) {
+        isTouchEventRef.value = false;
+        return;
+    }
     toggleZoom(e);
 };
 
 const handleTouchStart = (e: TouchEvent) => {
     if (e.touches.length === 1) {
-        toggleZoom(e);
+        toggleZoom(e, true);
     }
 };
 
 const handleTouchMove = (e: TouchEvent) => {
-    updatePosition(e);
+    if (e.touches.length === 1) {
+        e.preventDefault();
+        isTouchEventRef.value = true;
+
+        if (isZoomed.value) {
+            updatePosition(e);
+        } else {
+            handleTouchStart(e);
+        }
+    }
 };
 
 const handleTouchEnd = () => {
-    isTouchEventRef.value = null;
+    isTouchEventRef.value = false;
     isZoomed.value = false;
     zoomPosition.value = "50% 50%";
 };
@@ -78,19 +110,10 @@ const handleMove = (e: MouseEvent) => {
 };
 
 const handleMoveOut = () => {
-    isTouchEventRef.value = null;
+    isTouchEventRef.value = false;
     isZoomed.value = false;
     zoomPosition.value = "50% 50%";
 };
-
-watch(imageState, (newState) => {
-    isLoaded.value = newState.imgData !== null;
-    
-    if (!newState.imgData && !newState.error) {
-        isZoomed.value = false;
-        zoomPosition.value = '50% 50%';
-    }
-});
 
 const normalize = (val: string | number | undefined, fallback: string) => {
     if (typeof val === 'number') return `${val}px`;
@@ -105,7 +128,7 @@ const figureStyle = computed(() => {
     return {
         width: computedWidth,
         height: computedHeight,
-        backgroundImage: imageState.value.imgData ? `url(${imageState.value.imgData})` : '',
+        backgroundImage: isZoomed.value && imageState.value.imgData ? `url(${imageState.value.imgData})` : '',
         backgroundSize: calculatedZoom.value,
         backgroundPosition: zoomPosition.value,
         cursor: isZoomed.value ? 'zoom-out' : 'zoom-in'
@@ -122,15 +145,17 @@ const errorStyle = computed(() => {
 </script>
 
 <template>
-    <figure v-show="!imageState.error" :id="props.id || `image-zoom-${uid}`"
-        :class="['image-zoom', { loaded: isLoaded, loading: !isLoaded, zoomed: isZoomed, fullView: !isZoomed }]"
+    <figure v-if="!imageState.error" :id="props.id || `image-zoom-${uid}`"
+        :class="['image-zoom', { loaded: isLoaded, loading: !isLoaded, zoomed: isZoomed, fullView: !isZoomed }, props.theme?.root]"
         ref="figureRef" role="button" :aria-label="'Zoomable image: ' + alt" tabIndex="0" :style="figureStyle"
         @click="handleClick" @mousemove="handleMove" @mouseleave="handleMoveOut" @touchstart="handleTouchStart"
         @touchmove="handleTouchMove" @touchend="handleTouchEnd" @touchcancel="handleTouchEnd" v-bind="attrs">
-        <img v-if="imageState.imgData" loading="lazy" id="imageZoom" :src="imageState.imgData" :alt="alt" />
+        <img v-if="imageState.imgData" loading="lazy" id="imageZoom" :class="props.theme?.image" :src="imageState.imgData" :alt="alt" :width="width" :height="height" />
     </figure>
-    <div v-show="imageState.error" class="error" :style="errorStyle">
-        <p>{{ errorMessage }}</p>
+    <div v-else class="error" :style="errorStyle">
+        <slot name="error">
+            <p class="image-zooom-error">{{ errorMessage }}</p>
+        </slot>
     </div>
 </template>
 
@@ -157,6 +182,7 @@ div.error {
 
 figure.image-zoom {
     position: relative;
+    display: inline-block;
     min-height: 25vh;
     background-position: 50% 50%;
     background-color: #eee;
@@ -214,11 +240,18 @@ figure.image-zoom.loaded::after {
 figure.image-zoom img {
     opacity: 1;
     display: block;
-    width: 100%;
-    height: auto;
 }
 
 figure.image-zoom.zoomed img {
     opacity: 0;
+}
+
+p.image-zooom-error {
+    width: 100%;
+    text-align: center;
+    border: 1px solid #f8f8f8;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: #555;
 }
 </style>
